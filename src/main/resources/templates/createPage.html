@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -11,11 +11,10 @@
 
 <body>
     <div id="editor"></div>
-
-
+    <button id="submit">Submit</button>
   
-
-    <script src="/static/js/ckeditor/main.js"></script>
+    <!-- ckeditor5 -->
+    <script type="module" src="/static/js/ckeditor/main.js" th:src="@{/js/ckeditor/main.js}"></script>
 </body>
 
 </html>
