@@ -1,0 +1,63 @@
+spring:
+
+  #  postgresql db (1.local, 2.deploy)
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    platform: postgres
+    # local
+    url: jdbc:postgresql://localhost:5432/instaweb-v2
+    username: admin_jake
+    password: admin_jake
+    # heroku deploy
+#    url: jdbc:postgresql://ec2-34-197-91-131.compute-1.amazonaws.com/dckofr3ptkpa9b
+#    username: mpcdhjuocwciio
+#    password: 3fc888680efc3d57d8a90a3f46246d90d6913bf5e1be8bcbffb54c7b616b0b3c
+
+    maxActive: 10
+    maxIdle: 5
+    minIdle: 2
+    initialSize: 5
+    removeAbandoned: true
+
+
+  jpa:
+    hibernate:
+      # 최초에만 create
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+
+
+  servlet:
+    multipart:
+      maxFileSize: 50MB
+      maxRequestSize: 50MB
+
+#logging:
+#  level:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+
+
+# 세션 타임아웃 설정
+# 세션의 타임아웃 시간은 해당 세션과 관련된 JSESSIONID 를 전달하는 HTTP 요청이 있으면 현재 시간으로
+# 다시 초기화 된다.
+server:
+  servlet:
+    session:
+      timeout: 1800
+
+  # heroku deploy 시 명시 필수, 로칼에서는 주석 처리
+#  port: ${PORT:5432}
+
+  error:
+    whitelabel:
+      enabled: false
+
