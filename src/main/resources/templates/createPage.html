@@ -1,20 +1,32 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <title>글 작성</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="https://c.cksource.com/a/1/logos/ckeditor5.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/ckeditor5.css" th:href="@{/css/ckeditor5.css}">
+    <link rel="stylesheet" type="text/css" href="/static/css/createPage.css" th:href="@{/css/createPage.css}">
 </head>
 
-<body>
-    <div id="editor"></div>
-    <button id="submit">Submit</button>
-  
-    <!-- ckeditor5 -->
-    <script type="module" src="/static/js/ckeditor/main.js" th:src="@{/js/ckeditor/main.js}"></script>
+<body data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
+
+    <!-- editor -->
+    <div class="centered">
+        <div class="row row-editor">
+            <div class="editor-container">
+                <div class="editor">
+                </div>
+            </div>            
+        </div>
+        <button id="submit">submit</button>
+    </div>
+
+
+    <script src="/static/ckeditor5/build/ckeditor.js" th:src="@{/ckeditor5/build/ckeditor.js}"></script>
+    <script src="/static/js/ckeditor/main.js" th:src="@{/js/ckeditor/main.js}"></script>
+
 </body>
 
 </html>
