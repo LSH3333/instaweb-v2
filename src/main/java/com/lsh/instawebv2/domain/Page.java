@@ -15,6 +15,13 @@ public class Page {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    // Page 를 소유하는 Member
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
+
+
+
     public Page(){}
 
     public Page(String content) {
