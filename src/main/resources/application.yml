@@ -40,10 +40,10 @@ spring:
       maxFileSize: 50MB
       maxRequestSize: 50MB
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type: trace
+logging:
+  level:
+    root: info
+
 
 
 # 세션 타임아웃 설정

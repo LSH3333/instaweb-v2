@@ -183,7 +183,7 @@
             <div class="form-floating">
                 <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Password">
                 <label for="password" th:unless="${#fields.hasErrors('password')}">Password</label>
-                <label style="color: red;" for="password" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Login name can't be empty</label>       
+                <label style="color: red;" for="password" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password can't be empty</label>       
             </div>
 
             <div class="form-check text-start my-3">

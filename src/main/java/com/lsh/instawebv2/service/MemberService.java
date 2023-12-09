@@ -25,5 +25,13 @@ public class MemberService {
         return new Member(loginId, password);
     }
 
+    /**
+     *
+     * @param loginId : Member.loginId
+     * @return : loginId 를 갖는 Member 가 이미 DB 에 존재한다면 return true
+     */
+    public boolean checkDuplicationByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).isPresent();
+    }
 
 }

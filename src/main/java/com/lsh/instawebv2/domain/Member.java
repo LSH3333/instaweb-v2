@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.validation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
@@ -20,9 +16,9 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    @NotEmpty(message = "Login name can't be empty")
+    @NotEmpty(message = "비어있을수 없습니다")
     private String loginId;
-    @NotEmpty(message = "Password can't be empty")
+    @NotEmpty(message = "비어있을수 없습니다")
     private String password;
 
 //    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
