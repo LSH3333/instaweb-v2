@@ -24,13 +24,13 @@ public class MemberController {
     }
 
 
-    @GetMapping("/member/register")
+    @GetMapping("/members")
     public String registerForm(@ModelAttribute("member") Member member) {
-        return "register";
+        return "members/register";
     }
 
 
-    @PostMapping("/member/register")
+    @PostMapping("/members")
     public String register(@Valid @ModelAttribute("member") Member member, BindingResult bindingResult) {
         log.info("member = {}, member.getLoginId() = {}, member.getPassword() = {}", member, member.getLoginId(), member.getPassword());
 
@@ -53,7 +53,7 @@ public class MemberController {
 
         // 에러 있을시 되돌아감
         if (bindingResult.hasErrors()) {
-            return "register";
+            return "members/register";
         }
 
 

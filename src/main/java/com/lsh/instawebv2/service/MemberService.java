@@ -34,4 +34,5 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId).isPresent();
     }
 
+
 }
