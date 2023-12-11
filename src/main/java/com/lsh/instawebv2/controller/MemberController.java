@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+
 @Controller
 @Slf4j
 public class MemberController {
@@ -31,7 +33,7 @@ public class MemberController {
 
 
     @PostMapping("/members")
-    public String register(@Valid @ModelAttribute("member") Member member, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute("member") Member member, BindingResult bindingResult, Principal principal) {
         log.info("member = {}, member.getLoginId() = {}, member.getPassword() = {}", member, member.getLoginId(), member.getPassword());
 
         // LoginId 는 영어와 숫자로만 이루어져 있어야 한다
@@ -55,7 +57,6 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "members/register";
         }
-
 
         // 회원 등록
         memberService.save(member.getLoginId(), member.getPassword());

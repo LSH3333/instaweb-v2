@@ -29,6 +29,7 @@ public class PageController {
         return "createPage";
     }
 
+    // todo: 임시
     @GetMapping("/page/view")
     public String viewPage(Model model) {
         Page page = pageService.findOne(1L);
@@ -37,6 +38,7 @@ public class PageController {
         return "viewPage";
     }
 
+    // todo: 임시
     @PostMapping("/page/upload")
     public ResponseEntity<String> uploadPage(@RequestParam("content") String content) {
         System.out.println("content = " + content);

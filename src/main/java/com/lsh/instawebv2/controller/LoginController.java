@@ -37,7 +37,7 @@ public class LoginController {
 
     // todo: 인터셉터 만들어서 redirectURL 처리 해야함
     @PostMapping("/members/login")
-    public String login(@Valid @ModelAttribute("loginForm") LoginForm form,
+    public String login(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
                         BindingResult bindingResult,
                         @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request) {
@@ -46,7 +46,7 @@ public class LoginController {
             return "members/login";
         }
 
-        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
         if(loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다");
             return "members/login";
@@ -56,8 +56,9 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
+        return "index";
         // 로그인 성공 -> request 가 온 url 로 되돌아가도록 리다이렉트 처리
-        return "redirect:" + redirectURL;
+//        return "redirect:" + redirectURL;
     }
 
 }
