@@ -26,16 +26,16 @@ public class MemberRepository {
 
     /**
      * loginId 를 갖는 Member 를 DB 에서 찾는다
-     * @param loginId : Member.loginId
+     * @param username : Member.username
      * @return : loginId 를 갖는 Member 가 있다면 Optional 에 담아서 리턴
      */
-    public Optional<Member> findByLoginId(String loginId) {
+    public Optional<Member> findByUsername(String username) {
 
-        return em.createQuery("select m from Member m where m.loginId = :loginId", Member.class)
-                .setParameter("loginId", loginId)
+        return em.createQuery("select m from Member m where m.username = :username", Member.class)
+                .setParameter("username", username)
                 .getResultList()
                 .stream()
-                .filter(m -> m.getLoginId().equals(loginId)).findFirst();
+                .filter(m -> m.getUsername().equals(username)).findFirst();
     }
 
 }

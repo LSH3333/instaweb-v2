@@ -34,23 +34,23 @@ public class MemberController {
 
     @PostMapping("/members")
     public String register(@Valid @ModelAttribute("member") Member member, BindingResult bindingResult, Principal principal) {
-        log.info("member = {}, member.getLoginId() = {}, member.getPassword() = {}", member, member.getLoginId(), member.getPassword());
+        log.info("member = {}, member.Username() = {}, member.getPassword() = {}", member, member.getUsername(), member.getPassword());
 
-        // LoginId 는 영어와 숫자로만 이루어져 있어야 한다
-        if (!containOnlyEngAndNum(member.getLoginId())) {
-            bindingResult.addError(new FieldError("member", "loginId", member.getLoginId(), false, null, null, "영어와 숫자만 가능"));
+        // username 는 영어와 숫자로만 이루어져 있어야 한다
+        if (!containOnlyEngAndNum(member.getUsername())) {
+            bindingResult.addError(new FieldError("member", "username", member.getUsername(), false, null, null, "영어와 숫자만 가능"));
         }
-        // LoginId 는 4글자 이상 10 글자 이하
-        if(member.getLoginId().length() < 4 || member.getLoginId().length() > 10) {
-            bindingResult.addError(new FieldError("member", "loginId", member.getLoginId(), false, null, null,"4글자 이상 10글자 이하"));
+        // username 는 4글자 이상 10 글자 이하
+        if(member.getUsername().length() < 4 || member.getUsername().length() > 10) {
+            bindingResult.addError(new FieldError("member", "username", member.getUsername(), false, null, null,"4글자 이상 10글자 이하"));
         }
         // password 는 4글자 이상 10 글자 이하
-        if(member.getPassword().length() < 4 || member.getLoginId().length() > 10) {
+        if(member.getPassword().length() < 4 || member.getUsername().length() > 10) {
             bindingResult.addError(new FieldError("member", "password", member.getPassword(), false, null, null,"4글자 이상 10글자 이하"));
         }
-        // loginId 는 중복될수 없다
-        if (memberService.checkDuplicationByLoginId(member.getLoginId())) {
-            bindingResult.addError(new FieldError("member", "loginId", member.getLoginId(), false, null, null, "이미 존재합니다"));
+        // username 는 중복될수 없다
+        if (memberService.checkDuplicationByUsername(member.getUsername())) {
+            bindingResult.addError(new FieldError("member", "username", member.getUsername(), false, null, null, "이미 존재합니다"));
         }
 
         // 에러 있을시 되돌아감
@@ -59,7 +59,7 @@ public class MemberController {
         }
 
         // 회원 등록
-        memberService.save(member.getLoginId(), member.getPassword());
+        memberService.save(member.getUsername(), member.getPassword());
 
         return "redirect:/";
     }

@@ -25,7 +25,7 @@ public class LoginService {
      * @return : 로그인 성공시 로그인 성공한 Member return, else null
      */
     public Member login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
+        return memberRepository.findByUsername(loginId)
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }

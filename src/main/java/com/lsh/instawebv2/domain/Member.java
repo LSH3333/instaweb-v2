@@ -15,7 +15,7 @@ public class Member {
     private Long id;
 
     @NotEmpty(message = "비어있을수 없습니다")
-    private String loginId;
+    private String username;
     @NotEmpty(message = "비어있을수 없습니다")
     private String password;
 
@@ -27,8 +27,8 @@ public class Member {
 
     public Member() {}
 
-    public Member(String loginId, String password, String role) {
-        this.loginId = loginId;
+    public Member(String username, String password, String role) {
+        this.username = username;
         this .password = password;
         this.role = role;
     }

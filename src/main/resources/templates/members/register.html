@@ -176,9 +176,9 @@
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
             <div class="form-floating">
-                <input type="text" th:field="*{loginId}" class="form-control" id="loginId" placeholder="name">                
-                <label for="loginId" th:unless="${#fields.hasErrors('loginId')}">Login name</label>                
-                <label style="color: red;" for="loginId" th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}">Login name can't be empty</label>       
+                <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="name">                
+                <label for="username" th:unless="${#fields.hasErrors('username')}">Login name</label>                
+                <label style="color: red;" for="username" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Login name can't be empty</label>       
             </div>
             <div class="form-floating">
                 <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Password">

@@ -20,23 +20,23 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void save(String loginId, String password) {
-        memberRepository.save(makeNewMember(loginId, password));
+    public void save(String username, String password) {
+        memberRepository.save(makeNewMember(username, password));
     }
 
     // "ROLE_USER" 의 role 을 갖는 member 등록
     // password 는 암호화
-    private Member makeNewMember(String loginId, String password) {
-        return new Member(loginId, passwordEncoder.encode(password), "ROLE_USER");
+    private Member makeNewMember(String username, String password) {
+        return new Member(username, passwordEncoder.encode(password), "ROLE_USER");
     }
 
     /**
      *
-     * @param loginId : Member.loginId
-     * @return : loginId 를 갖는 Member 가 이미 DB 에 존재한다면 return true
+     * @param username : Member.username
+     * @return : username 를 갖는 Member 가 이미 DB 에 존재한다면 return true
      */
-    public boolean checkDuplicationByLoginId(String loginId) {
-        return memberRepository.findByLoginId(loginId).isPresent();
+    public boolean checkDuplicationByUsername(String username) {
+        return memberRepository.findByUsername(username).isPresent();
     }
 
 
