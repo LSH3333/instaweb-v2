@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <script src="/static/bootstrap/js/color-modes.js" th:src="@{/bootstrap/js/color-modes.js}"></script>
@@ -9,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.118.2">
-  <title>Album example · Bootstrap v5.3</title>
+  <title>Home</title>
 
   <!-- <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"> -->
@@ -181,12 +182,18 @@
               them off to some social networking sites or contact information.</p>
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
-            <h4>Contact</h4>
+            <a href="/" th:href="@{/members/logout}"
+              sec:authorize="isAuthenticated()"><button type="button" class="btn btn-primary btn-sm">LogOut</button></a>
+            <a href="/templates/members/login.html" th:href="@{/members/login}" sec:authorize="isAnonymous()"><button
+                type="button" class="btn btn-primary btn-sm">Login</button></a>
+            <a href="/templates/members/register.html" th:href="@{/members}" sec:authorize="isAnonymous()"><button type="button"
+                class="btn btn-primary btn-sm">Register</button></a>
+            <!-- <h4>Contact</h4>
             <ul class="list-unstyled">
               <li><a href="#" class="text-white">Follow on Twitter</a></li>
               <li><a href="#" class="text-white">Like on Facebook</a></li>
               <li><a href="#" class="text-white">Email me</a></li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
@@ -234,8 +241,9 @@
             <div class="card shadow-sm">
               <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
                 role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>                
-                <image th:href="@{/img/thumb-course-unity.jpg}" href="/static/img/thumb-course-unity.jpg" width="100%" height="100%"></image>
+                <title>Placeholder</title>
+                <image th:href="@{/img/thumb-course-unity.jpg}" href="/static/img/thumb-course-unity.jpg" width="100%"
+                  height="100%"></image>
                 <!-- <rect width="100%" height="100%" fill="#55595c" />                 -->
                 <!-- <text x="50%" y="50%" fill="#eceeef"
                   dy=".3em">Thumbnail</text> -->
@@ -276,7 +284,7 @@
             </div>
           </div> -->
 
-       
+
         </div>
       </div>
     </div>

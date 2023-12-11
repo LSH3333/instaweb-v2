@@ -22,7 +22,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/", "/members/**").permitAll() // 인증없이 접근 가능 경로
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
-                        .requestMatchers("/page/create", "/page/upload").hasRole("USER") // role 이 있어야 접근 가능한 경로 (prefix: ROLE_)
+                        .requestMatchers("/page/create", "/page/upload").hasRole("USER") // role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 
                 )
                 .formLogin(formLogin -> formLogin

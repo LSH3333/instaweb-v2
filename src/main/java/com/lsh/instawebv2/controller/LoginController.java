@@ -63,7 +63,7 @@ public class LoginController {
             log.info("username = {}, role = {}", username, roles);
         }
 
-        return "index";
+        return "info";
     }
 
 

@@ -13,6 +13,7 @@ import java.util.Optional;
 /**
  * SecurityConfig 에 설정한 loginProcessingUrl 에 요청이 오면
  * 자동으로 UserDetailsService 빈의 loadUserByUsername() 실행 됨
+ * loadUserByUsername 은 UserDetails 를 리턴하는데 이는 AuthenticationProvider 에게 전달되고 이를 기반으로 인증 진행함
  */
 @Service
 public class PrincipalDetailsService implements UserDetailsService {
