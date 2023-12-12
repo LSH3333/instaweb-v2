@@ -4,29 +4,35 @@ import com.lsh.instawebv2.domain.Page;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class PageRepository {
+import java.time.LocalDateTime;
 
-    private final EntityManager em;
+//@Repository
+public interface PageRepository extends JpaRepository<Page, Long> {
 
-    @Autowired
-    public PageRepository(EntityManager em) {
-        this.em = em;
-    }
+    org.springframework.data.domain.Page<Page> findByCreatedTime(LocalDateTime createdTime, Pageable pageable);
 
-    public void save(Page page) {
-        em.persist(page);
-    }
-
-    /**
-     * pageId 와 일치하는 Page 객체 1개 리턴
-     * @param pageId : pageId
-     * @return : pageId 와 일치하는 Page 객체 1개
-     */
-    public Page findOne(Long pageId) {
-        return em.find(Page.class, pageId);
-    }
+//    private final EntityManager em;
+//
+//    @Autowired
+//    public PageRepository(EntityManager em) {
+//        this.em = em;
+//    }
+//
+//    public void save(Page page) {
+//        em.persist(page);
+//    }
+//
+//    /**
+//     * pageId 와 일치하는 Page 객체 1개 리턴
+//     * @param pageId : pageId
+//     * @return : pageId 와 일치하는 Page 객체 1개
+//     */
+//    public Page findOne(Long pageId) {
+//        return em.find(Page.class, pageId);
+//    }
 
 }

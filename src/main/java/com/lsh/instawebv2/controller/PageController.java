@@ -2,10 +2,12 @@ package com.lsh.instawebv2.controller;
 
 import com.lsh.instawebv2.domain.Member;
 import com.lsh.instawebv2.domain.Page;
+import com.lsh.instawebv2.repository.PageRepository;
 import com.lsh.instawebv2.service.MemberService;
 import com.lsh.instawebv2.service.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,22 +28,36 @@ import java.util.stream.Collectors;
 public class PageController {
 
     private final PageService pageService;
+    private final PageRepository pageRepository;
     private final MemberService memberService;
 
-    public PageController(PageService pageService, MemberService memberService) {
+    public PageController(PageService pageService, MemberService memberService, PageRepository pageRepository) {
         this.pageService = pageService;
         this.memberService = memberService;
+        this.pageRepository = pageRepository;
     }
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+        int size = 5; // 보여줄 글 갯수
+        org.springframework.data.domain.Page<Page> pages = pageRepository.findAll(PageRequest.of(page, size));
+        log.info("pages = {}", pages);
+        log.info("getTotalPages = {}, getTotalElements = {}", pages.getTotalPages(), pages.getTotalElements());
+
+        // 비어있으면 첫 페이지 렌더링
+        if (pages.isEmpty()) {
+            pages = pageRepository.findAll(PageRequest.of(0, size));
+        }
+        model.addAttribute("pages", pages);
         return "index";
     }
+
 
     @GetMapping("/pages/create")
     public String createPage() {
         return "pages/create";
     }
+
 
     // todo: 임시
     @GetMapping("/pages/view")
@@ -54,7 +70,7 @@ public class PageController {
     /**
      *
      * @param content : 'pages/create.html' 로 부터 ajax 요청 전달 받아서 Page 저장함
-     * @return : HTTStatus OK 
+     * @return : HTTStatus OK
      */
     @PostMapping("/pages/upload")
     public ResponseEntity<String> uploadPage(@RequestParam("content") String content) {
@@ -67,6 +83,9 @@ public class PageController {
         message = "Files uploaded successfully!";
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
+
+
+
 
     /**
      * SecurityContextHolder 에 저장되있는 인증 받은 사용자 찾는다
@@ -83,4 +102,6 @@ public class PageController {
         }
         return member;
     }
+
+
 }

@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
+//                        .requestMatchers("/pageTest").permitAll()
                         .requestMatchers("/", "/members/**").permitAll() // 인증없이 접근 가능 경로
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
                         .requestMatchers("/page/create", "/page/upload").hasRole("USER") // role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
