@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 
 @Configuration
@@ -20,8 +21,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-//                        .requestMatchers("/pageTest").permitAll()
                         .requestMatchers("/", "/members/**").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll()
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
                         .requestMatchers("/page/create", "/page/upload").hasRole("USER") // role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 

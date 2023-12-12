@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -58,11 +59,9 @@ public class PageController {
         return "pages/create";
     }
 
-
-    // todo: 임시
-    @GetMapping("/pages/view")
-    public String viewPage(Model model) {
-        Page page = pageService.findOne(1L);
+    @GetMapping("/pages/{pageId}")
+    public String viewPage(Model model, @PathVariable(name = "pageId") String pageId) {
+        Page page = pageService.findOne(Long.parseLong(pageId));
         model.addAttribute("page", page);
         return "pages/view";
     }
