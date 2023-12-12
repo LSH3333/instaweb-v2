@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table
 @Data
@@ -21,9 +24,9 @@ public class Member {
 
     private String role; // ROLE_USER, ROLE_ADMIN
 
-//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-//    @OrderBy("createdTime desc") // Page 의 생성 시간 기준 오름차순으로 저장
-//    private List<Page> pages = new ArrayList<>();
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OrderBy("createdTime desc") // Page 의 생성 시간 기준 오름차순으로 저장
+    private List<Page> pages = new ArrayList<>();
 
     public Member() {}
 
@@ -33,6 +36,9 @@ public class Member {
         this.role = role;
     }
 
+    public void addPage(Page page) {
+        this.pages.add(page);
+    }
 
 
 }

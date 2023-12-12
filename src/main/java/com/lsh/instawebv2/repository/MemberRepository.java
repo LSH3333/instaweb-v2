@@ -21,8 +21,9 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    // loginId 로 Member 찾는다
-    // 해당 없다면 null 리턴
+    public Member findById(Long id) {
+        return em.find(Member.class, id);
+    }
 
     /**
      * loginId 를 갖는 Member 를 DB 에서 찾는다

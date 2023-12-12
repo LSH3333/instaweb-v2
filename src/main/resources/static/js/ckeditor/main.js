@@ -40,7 +40,7 @@ function uploadToServer(editorData) {
 		formData.append("content", editorData);
 
 		const uploadToServerXhr = new XMLHttpRequest();
-		uploadToServerXhr.open("POST", "/page/upload", true);
+		uploadToServerXhr.open("POST", "/pages/upload", true);
 		uploadToServerXhr.onload = function () {
 			if (uploadToServerXhr.status == 200) {
 				console.log("Files uploaded successfully");
