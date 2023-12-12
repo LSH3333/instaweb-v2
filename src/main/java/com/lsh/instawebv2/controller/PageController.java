@@ -70,15 +70,20 @@ public class PageController {
     /**
      *
      * @param content : 'pages/create.html' 로 부터 ajax 요청 전달 받아서 Page 저장함
+     * @param frontImg : 미리보기에 표시할 이미지
+     * @param frontText : 미리보기에 표시할 텍스트
      * @return : HTTStatus OK
      */
     @PostMapping("/pages/upload")
-    public ResponseEntity<String> uploadPage(@RequestParam("content") String content) {
-        log.info("content = {}", content);
+    public ResponseEntity<String> uploadPage(@RequestParam("content") String content,
+                                             @RequestParam("frontImg") String frontImg,
+                                             @RequestParam("frontText") String frontText) {
+        log.info("content = {}, frontImg = {}", content, frontImg);
+        log.info("frontText = {}", frontText);
         String message;
 
         Member loggedInMember = getLoggedInMember();
-        pageService.createPageForMember(loggedInMember.getId(), content);
+        pageService.createPageForMember(loggedInMember.getId(), content, frontImg, frontText);
 
         message = "Files uploaded successfully!";
         return ResponseEntity.status(HttpStatus.OK).body(message);

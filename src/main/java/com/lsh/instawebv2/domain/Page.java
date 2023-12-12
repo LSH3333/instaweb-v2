@@ -27,12 +27,19 @@ public class Page {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 
+    // 미리보기 카드에 보여줄 이미지, base64 로 저장. 이미지 하나도 없을시 "null" 로 저장
+    @Lob
+    private String frontImg;
+    // 미리보기 카드에 보여줄 내용
+    private String frontText;
 
     public Page(){}
 
-    public Page(String content, LocalDateTime createdTime) {
+    public Page(String content, LocalDateTime createdTime, String frontImg, String frontText) {
         this.content = content;
         this.createdTime = createdTime;
+        this.frontImg = frontImg;
+        this.frontText = frontText;
     }
 
     public Page(String content) {

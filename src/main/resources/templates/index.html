@@ -237,7 +237,7 @@
       <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
+          <!-- 서버에서 넘어온 Page iterate 하면서 랜더링함 -->
           <table>
             <thead>
               <tr>
@@ -256,11 +256,12 @@
                       xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
                       preserveAspectRatio="xMidYMid slice" focusable="false">
                       <title>Placeholder</title>
-                      <image th:href="@{/img/thumb-course-unity.jpg}" href="/static/img/thumb-course-unity.jpg"
-                        width="100%" height="100%"></image>
+                      <!-- <image th:href="@{/img/thumb-course-unity.jpg}" href="/static/img/thumb-course-unity.jpg"
+                        width="100%" height="100%"></image> -->                        
+                      <image th:href="${page.frontImg}"></image>
                     </svg>
                     <div class="card-body">
-                      <p class="card-text" th:text="${page.content}">This is page content</p>
+                      <p class="card-text" th:text="${page.frontText}">This is page content</p>
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                           <button type="button" class="btn btn-sm btn-outline-secondary">View</button>

@@ -37,7 +37,19 @@ function uploadToServer(editorData) {
 	return new Promise(function (resolve, reject) {
 		const formData = new FormData();
 
+		// content
 		formData.append("content", editorData);
+
+		// frontImg
+		const frontImg = getFrontImg(editorData)
+		if(frontImg === null) {
+			formData.append("frontImg", "null")
+		} else {
+			formData.append("frontImg", frontImg.src)
+		}
+		// frontText
+		const frontText = getFrontText(editorData);
+		formData.append("frontText", frontText.substring(0, 100));
 
 		const uploadToServerXhr = new XMLHttpRequest();
 		uploadToServerXhr.open("POST", "/pages/upload", true);
@@ -56,6 +68,38 @@ function uploadToServer(editorData) {
 
 		uploadToServerXhr.send(formData);
 	})
+}
 
+function getFrontImg(editorData) {
+	const tempDiv = document.createElement("div");
+	tempDiv.innerHTML = editorData;
+	const imgElement = tempDiv.querySelector('img');
+	return imgElement;
+}
 
+function getFrontText(editorData) {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = editorData;
+
+    // Recursive function to extract text content from nested elements
+    function extractText(element) {
+        let text = '';
+        for (let childNode of element.childNodes) {
+            if (childNode.nodeType === Node.TEXT_NODE) {
+                // If it's a text node, append the text content
+                text += childNode.nodeValue;
+            } else if (childNode.nodeType === Node.ELEMENT_NODE) {
+                // If it's an element node, recursively extract text from its children
+                text += extractText(childNode);
+            }
+        }
+        return text;
+    }
+
+    // Call the recursive function on the main div
+    const textContent = extractText(tempDiv);
+
+    // Use the extracted text content as needed
+    console.log(textContent);
+	return textContent;
 }
