@@ -20,17 +20,19 @@ function handleSampleError(error) {
 }
 
 
+const submintBtn = document.getElementById('submit');
+const submitAnchor = document.getElementById('submitAnchor')
 
-// submit 
-document.querySelector('#submit').addEventListener('click', () => {
+submintBtn.addEventListener('click', function(event) {
+	event.preventDefault();
 	const editorData = editor.getData();
-	console.log(editorData)
-
-	pressSubmitBtn(editorData);
+	pressSubmitBtn(editorData);	
+	
 });
 
 async function pressSubmitBtn(editorData) {
 	await uploadToServer(editorData);
+	submitAnchor.click();
 }
 
 function uploadToServer(editorData) {
@@ -43,7 +45,7 @@ function uploadToServer(editorData) {
 		// frontImg
 		const frontImg = getFrontImg(editorData)
 		if(frontImg === null) {
-			formData.append("frontImg", "null")
+			formData.append("frontImg", "NULL")
 		} else {
 			formData.append("frontImg", frontImg.src)
 		}
