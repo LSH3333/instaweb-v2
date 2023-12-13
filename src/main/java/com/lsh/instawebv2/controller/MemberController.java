@@ -25,7 +25,11 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-
+    /**
+     * 회원가입 뷰
+     * @param member : member 객체 만들어서 뷰로 전달
+     * @return : 회원가입 뷰
+     */
     @GetMapping("/members")
     public String registerForm(@ModelAttribute("member") Member member) {
         return "members/register";
