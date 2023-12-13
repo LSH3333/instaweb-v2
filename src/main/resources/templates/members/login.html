@@ -224,7 +224,7 @@
 
         <main class="form-signin w-100 m-auto">
 
-            <form action="/members/login-proc" method="post">
+            <form th:action=@{/members/login-proc} action="/members/login-proc" method="post">
                 <h1 class="h3 mb-3 fw-normal">Please Log-in</h1>
 
                 <div class="form-floating">
@@ -234,6 +234,11 @@
                 <div class="form-floating">
                     <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                     <label for="password">Password</label>
+                </div>
+
+                <!-- SimpleUrlAuthenticationFailureHandler 가 로그인 실패시 에러 전달 -->
+                <div th:if="${param.error}">
+                    <p style="color: red;">Invalid username or password</p>
                 </div>
 
                 <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>

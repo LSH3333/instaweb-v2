@@ -42,6 +42,10 @@ public class LoginController {
         return "members/login";
     }
 
+//    @PostMapping("/members/login-proc")
+//    public String login() {
+//        return "index";
+//    }
 
     /**
      * 임시 디버그용 메소드.

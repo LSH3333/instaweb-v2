@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
@@ -34,6 +36,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginProcessingUrl("/members/login-proc")
                         .defaultSuccessUrl("/")
+                        .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
                 )
                 .logout(logoutConfig -> logoutConfig.logoutUrl("/members/logout").logoutSuccessUrl("/"))
                 .csrf(csrf -> csrf.disable());
@@ -41,6 +44,14 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // 로그인 실패 핸들러
+    @Bean
+    AuthenticationFailureHandler authenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler("/members/login?error=true");
+    }
+
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
