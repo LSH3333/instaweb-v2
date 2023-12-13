@@ -111,4 +111,8 @@ public class PageController {
     }
 
 
+    @GetMapping("/layoutTest")
+    public String layoutTest() {
+        return "layoutTest";
+    }
 }
