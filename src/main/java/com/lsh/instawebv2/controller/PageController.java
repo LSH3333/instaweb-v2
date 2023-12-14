@@ -8,6 +8,7 @@ import com.lsh.instawebv2.service.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,7 +44,7 @@ public class PageController {
         int size = 6; // 보여줄 글 갯수
         // page 부터 size 개의 글
         // findAll() : Returns a Page of entities meeting the paging restriction provided in the Pageable object
-        org.springframework.data.domain.Page<Page> pages = pageRepository.findAll(PageRequest.of(page, size));
+        org.springframework.data.domain.Page<Page> pages = pageRepository.findAll(PageRequest.of(page, size, Sort.by("createdTime").descending()));
         log.info("pages = {}", pages);
         log.info("getTotalPages = {}, getTotalElements = {}", pages.getTotalPages(), pages.getTotalElements());
 
