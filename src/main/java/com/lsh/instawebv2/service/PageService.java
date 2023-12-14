@@ -7,12 +7,14 @@ import com.lsh.instawebv2.repository.PageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @Transactional
@@ -54,16 +56,21 @@ public class PageService {
         return page;
     }
 
+    public org.springframework.data.domain.Page<Page> findByMember(Member member, Pageable pageable) {
+        return pageRepository.findByMember(member, pageable);
+    }
+
+
     /**
      * Page가 생성된지 얼마나 지났는지 계산
      * @param createdTime : Page 생성 시간
      * @return : "2 days", "10 mins" 등 Page가 생성된지 얼마나 지났는지 계산후 String 형태로 리턴
      */
     public static String getTime(LocalDateTime createdTime) {
-        // Get the current time
+        // 현재 시간
         LocalDateTime currentTime = LocalDateTime.now();
 
-        // Calculate the time difference
+        // 차이 계산
         long minutesDifference = ChronoUnit.MINUTES.between(createdTime, currentTime);
         long hoursDifference = ChronoUnit.HOURS.between(createdTime, currentTime);
         long daysDifference = ChronoUnit.DAYS.between(createdTime, currentTime);
@@ -83,12 +90,6 @@ public class PageService {
     }
 
 
-//    public void pageTest() {
-//        org.springframework.data.domain.Page<Page> pages = pageRepository.findAll(PageRequest.of(0, 5));
-//
-//        for (Page page : pages) {
-//            log.info("page = {}", page.getId());
-//        }
-//    }
+
 
 }
