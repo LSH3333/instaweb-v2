@@ -43,13 +43,8 @@
               <tr th:each="page : ${pages.content}">
                 <div class="col">
                   <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                      preserveAspectRatio="xMidYMid slice" focusable="false">
-                      <title>Placeholder</title>
-                      <!-- img 미리보기 -->
-                      <image style="width:100%;" th:href="${page.frontImg}"></image>
-                    </svg>
+                    <!-- img 미리보기 -->
+                    <img class="img-fluid" style="width: 100%; height: 255px;" src="" th:src="${page.frontImg}" alt="">
                     <div class="card-body">
                       <!-- content 미리보기 -->
                       <p class="card-text" th:text="${page.frontText}">This is page content</p>
@@ -61,7 +56,7 @@
                           <!-- edit btn -->
                           <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                         </div>
-                        <small class="text-body-secondary">9 mins</small>
+                        <small th:text="${page.pastTime}" class="text-body-secondary">9 mins</small>
                       </div>
                     </div>
                   </div>
@@ -115,7 +110,7 @@
     // 현재 페이지 
     let pageNum = Number("[[${page}]]")
     // 전체 페이지 
-    let totalpages = Number("[[${pages.totalPages}]]")
+    let totalpages = Number("[[${pages.totalPages}]]")  
 
     // console.log('pageNum, totalPages = ' + pageNum, totalpages);
 

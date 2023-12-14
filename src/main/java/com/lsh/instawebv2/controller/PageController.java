@@ -40,7 +40,7 @@ public class PageController {
 
     @GetMapping("/")
     public String home(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
-        int size = 5; // 보여줄 글 갯수
+        int size = 6; // 보여줄 글 갯수
         // page 부터 size 개의 글
         // findAll() : Returns a Page of entities meeting the paging restriction provided in the Pageable object
         org.springframework.data.domain.Page<Page> pages = pageRepository.findAll(PageRequest.of(page, size));
@@ -51,6 +51,11 @@ public class PageController {
         if (pages.isEmpty()) {
             pages = pageRepository.findAll(PageRequest.of(0, size));
             page = 0;
+        }
+
+        for (Page curPage : pages) {
+            String diff = PageService.getTime(curPage.getCreatedTime());
+            curPage.setPastTime(diff);
         }
 
         // page objects

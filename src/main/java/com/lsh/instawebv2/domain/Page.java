@@ -32,6 +32,8 @@ public class Page {
     private String frontImg;
     // 미리보기 카드에 보여줄 내용
     private String frontText;
+    // Page가 생성된지 얼마나 지났는지. "9 min", "2 days" ..
+    private String pastTime;
 
     public Page(){}
 
@@ -49,5 +51,9 @@ public class Page {
     // Page 를 소유하는 Member 연관관계
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public void setPastTime(String pastTime) {
+        this.pastTime = pastTime;
     }
 }
