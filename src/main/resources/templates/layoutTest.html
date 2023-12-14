@@ -1,88 +1,111 @@
 <!DOCTYPE html>
-<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
+<html lang="en">
 
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- 각 페이지의 script가 작성될 위치 -->
+    <script src="/static/bootstrap/js/color-modes.js" th:src="@{/bootstrap/js/color-modes.js}"></script>
+    <!-- 각 페이지의 css가 작성될 위치 -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .bd-mode-toggle .dropdown-menu .active .bi {
+            display: block !important;
+        }
+    </style>
 </head>
 
-<body layout:fragment="content">
-    <main>
-
-        <section class="py-5 text-center container">
-            <div class="row py-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Album example</h1>
-                    <p class="lead text-body-secondary">Something short and leading about the collection below—its
-                        contents,
-                        the
-                        creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
-                        entirely.</p>
-                    <p>
-                        <a href="/templates/pages/create.html" th:href="@{/pages/create}" class="btn btn-primary my-2">글
-                            쓰기</a>
-                        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <div class="album py-5 bg-body-tertiary">
-            <div class="container">
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <!-- 서버에서 넘어온 Page iterate 하면서 랜더링함 -->
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <!-- Add other column headers as needed -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="page : ${pages.content}">
-                                <!-- <td th:text="${page.id}"></td> -->
-                                <!-- <td th:text="${page.content}"></td> -->
-
-                                <div class="col">
-                                    <div class="card shadow-sm">
-                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                            xmlns="http://www.w3.org/2000/svg" role="img"
-                                            aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                                            focusable="false">
-                                            <title>Placeholder</title>
-                                            <!-- img 미리보기 -->
-                                            <image style="width:100%;" th:href="${page.frontImg}"></image>
-                                        </svg>
-                                        <div class="card-body">
-                                            <!-- content 미리보기 -->
-                                            <p class="card-text" th:text="${page.frontText}">This is page content</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="btn-group">
-                                                    <!-- view btn -->
-                                                    <a href="/" th:href="@{/pages/{pageId}(pageId=${page.id})}"><button
-                                                            type="button"
-                                                            class="btn btn-sm btn-outline-secondary">View</button></a>
-                                                    <!-- edit btn -->
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                </div>
-                                                <small class="text-body-secondary">9 mins</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                </div>
-            </div>
-        </div>
-
-    </main>
+<body>
+    <nav aria-label="..." class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a class="page-link">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item active" aria-current="page">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item" style="display:none;"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
 </body>
 
 </html>
