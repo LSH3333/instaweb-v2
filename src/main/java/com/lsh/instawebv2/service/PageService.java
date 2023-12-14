@@ -45,8 +45,8 @@ public class PageService {
      * @param content : 작성 내용
      * @return : 연관관계 맺기 완료된 Page
      */
-    public Page createPageForMember(Long memberId, String content, String frontImg, String frontText) {
-        Page page = new Page(content, LocalDateTime.now(), frontImg, frontText);
+    public Page createPageForMember(Long memberId, String content, String frontImg, String frontText, String title) {
+        Page page = new Page(content, LocalDateTime.now(), frontImg, frontText, title);
         Member member = memberRepository.findById(memberId);
         // 연관관계
         page.setMember(member);

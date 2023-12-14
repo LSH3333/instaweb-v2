@@ -15,6 +15,9 @@ public class Page {
     @Column(name = "page_id")
     private Long id;
 
+    // 제목
+    private String title;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
@@ -37,11 +40,12 @@ public class Page {
 
     public Page(){}
 
-    public Page(String content, LocalDateTime createdTime, String frontImg, String frontText) {
+    public Page(String content, LocalDateTime createdTime, String frontImg, String frontText, String title) {
         this.content = content;
         this.createdTime = createdTime;
         this.frontImg = frontImg;
         this.frontText = frontText;
+        this.title = title;
     }
 
     public Page(String content) {

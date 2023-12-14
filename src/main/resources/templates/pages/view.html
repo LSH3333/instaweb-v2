@@ -2,13 +2,23 @@
 <html xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
 
+<head>
+  <title>글 보기</title>
+  <style>
+    .title {
+      font-weight: bold;
+      font-size: x-large;
+    }
+  </style>
+</head>
+
 <body layout:fragment="content">
   <main>
 
     <div class="album py-5 bg-body-tertiary">
       <div class="container">
-
-        <p th:utext="${page.content}"></p>
+        <p class="title" th:text="${page.title}">Title</p>
+        <p th:utext="${page.content}">Content</p>
         <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <p th:utext="${page.content}"></p>
             </div> -->

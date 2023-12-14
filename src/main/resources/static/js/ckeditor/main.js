@@ -52,6 +52,9 @@ function uploadToServer(editorData) {
 		// frontText
 		const frontText = getFrontText(editorData);
 		formData.append("frontText", frontText.substring(0, 100));
+		// title
+		let title =	document.getElementById('input-title').value
+		formData.append("title", title);
 
 		const uploadToServerXhr = new XMLHttpRequest();
 		uploadToServerXhr.open("POST", "/pages/upload", true);
