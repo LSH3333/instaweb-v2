@@ -86,30 +86,8 @@ function getFrontImg(editorData) {
 	return imgElement;
 }
 
-// 미리보기 카드용 텍스트 
-// 재귀적으로 자식으로 들어가면서 TEXT_NODE 에서 text 만 쁩는다 
-function getFrontText(editorData) {
-	const tempDiv = document.createElement("div");
-	tempDiv.innerHTML = editorData;
-
-	// element 들 순회하면서 text 만 뽑는다 
-	function extractText(element) {
-		let text = '';
-		for (let childNode of element.childNodes) {
-			if (childNode.nodeType === Node.TEXT_NODE) {
-				text += childNode.nodeValue;
-			} else if (childNode.nodeType === Node.ELEMENT_NODE) {
-				// TEXT_NODE 아니면 재귀적으로 자식으로 계속 파고 들어가면서 찾는다 
-				text += extractText(childNode);
-			}
-		}
-		return text;
-	}
-
-	// 재귀 시작 
-	const textContent = extractText(tempDiv);
-
-	return textContent;
+function getFrontText() {
+	return document.getElementById('input-title').value;
 }
 
 
