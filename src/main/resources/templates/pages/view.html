@@ -16,12 +16,19 @@
   <main>
 
     <div class="album py-5 bg-body-tertiary">
+      <!-- view -->
       <div class="container">
         <p class="title" th:text="${page.title}">Title</p>
         <p th:utext="${page.content}">Content</p>
-        <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <p th:utext="${page.content}"></p>
-            </div> -->
+      </div>
+    </div>
+    <!-- comment -->
+    <div class="album py-5 bg-body-secondary">
+      <div class="container">
+        <div class="input-group d-flex justify-content-center" style="min-width: 860px; width: 860px;">
+          <span class="input-group-text">댓글</span>
+          <textarea class="form-control" aria-label="With textarea"></textarea>
+        </div>
       </div>
     </div>
 
