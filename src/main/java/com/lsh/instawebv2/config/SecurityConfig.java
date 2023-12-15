@@ -24,10 +24,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/members", "/members/login").permitAll() // 인증없이 접근 가능 경로
-                        .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll()
+                        .requestMatchers("/", "/members", "/members/login", "/errors/**").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll() // 작성글들은 인증 없이 볼 수 있음
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
-                        .requestMatchers("/page/create", "/page/upload", "/members/pages").hasRole("USER") // role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
+                        .requestMatchers("/page/create", "/page/upload",
+                                "/members/pages", // 로그인한 Member 의 글작성 목록
+                                "/pages/[0-9]+/edit") // 로그인한 Member 가 작성한 {pageId} 글 수정
+                        .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 
                 )
                 .formLogin(formLogin -> formLogin
@@ -50,7 +53,6 @@ public class SecurityConfig {
     AuthenticationFailureHandler authenticationFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler("/members/login?error=true");
     }
-
 
 
     @Bean

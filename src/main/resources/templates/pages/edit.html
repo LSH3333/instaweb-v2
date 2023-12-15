@@ -3,7 +3,7 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
 
 <head>
-    <title>글 작성</title>
+    <title>글 수정</title>
 
 
     <!-- ckeditor5 -->
@@ -28,10 +28,11 @@
 
 <body layout:fragment="content">
     <main>
+        <div th:text="${page.title}"></div>
         <div class="album py-5 bg-body-tertiary">
             <div class="container">
                 <!-- title -->
-                <form action=""  class="d-flex justify-content-center mb-5">
+                <form action="" class="d-flex justify-content-center mb-5">
                     <input id="input-title" placeholder="제목을 입력하세요" class="w-50" type="text">
                 </form>
                 <!-- ckeditor -->
@@ -52,9 +53,31 @@
     </main>
 
 
+
+    <script>
+        const pageId = '[[${page.id}]]'
+        console.log('pageId = ' + pageId)
+    </script>
+
     <!-- ckeditor5 -->
     <script src="/static/ckeditor5/build/ckeditor.js" th:src="@{/ckeditor5/build/ckeditor.js}"></script>
-    <script src="/static/js/ckeditor/main.js" th:src="@{/js/ckeditor/main.js}"></script>
+    <script src="/static/js/ckeditor/edit.js" th:src="@{/js/ckeditor/edit.js}"></script>
+
+    <script>
+        window.onload = function () {
+            // thymeleaf 이스케이프 처리 하는 문법 
+            const title = '[[${page.title}]]';       
+            // 이스케이프 처리 하지 않는 문법  
+            const content = '[(${page.content})]';
+
+            // ckeditor5 editor 레퍼런스 
+            const domEditableElement = document.querySelector('.ck-editor__editable');
+            // ckeditor5 editor 인스턴스 
+            const editorInstance = domEditableElement.ckeditorInstance;
+            // 작성된 content setData 로 삽입해서 유저가 수정 가능하도록 함 
+            editorInstance.setData(content);
+        }
+    </script>
 </body>
 
 </html>

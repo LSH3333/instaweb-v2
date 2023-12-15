@@ -22,7 +22,8 @@
           <p>
             <a href="/templates/pages/create.html" th:href="@{/pages/create}" class="btn btn-primary my-2">글
               쓰기</a>
-            <a href="/templates/members/pages.html" th:href="@{/members/pages}" class="btn btn-secondary my-2">내 글 보기</a>
+            <a href="/templates/members/pages.html" th:href="@{/members/pages}" class="btn btn-secondary my-2">내 글
+              보기</a>
           </p>
         </div>
       </div>
@@ -54,7 +55,7 @@
                           <a href="/" th:href="@{/pages/{pageId}(pageId=${page.id})}"><button type="button"
                               class="btn btn-sm btn-outline-secondary">View</button></a>
                           <!-- edit btn -->
-                          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                          <a href="/" th:href="@{/pages/{pageId}/edit(pageId=${page.id})}"><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
                         </div>
                         <small th:text="${page.pastTime}" class="text-body-secondary">9 mins</small>
                       </div>
@@ -110,13 +111,13 @@
     // 현재 페이지 
     let pageNum = Number("[[${page}]]")
     // 전체 페이지 
-    let totalpages = Number("[[${pages.totalPages}]]")  
+    let totalpages = Number("[[${pages.totalPages}]]")
 
     // console.log('pageNum, totalPages = ' + pageNum, totalpages);
 
     // prev, next 버튼 href 설정 
-    pagination_prev_a.href = '?page=' + (Math.max(pageNum-4, 0)).toString();
-    pagination_next_a.href = '?page=' + (Math.min(pageNum+2, totalpages-1)).toString();
+    pagination_prev_a.href = '?page=' + (Math.max(pageNum - 4, 0)).toString();
+    pagination_next_a.href = '?page=' + (Math.min(pageNum + 2, totalpages - 1)).toString();
 
     // totalPages 3개 이하일 경우 그만큼만 랜더링 
     if (totalpages <= 3) {
@@ -141,7 +142,7 @@
         pagination_a_1.text = '1';
         pagination_a_2.text = '2';
         pagination_a_3.text = '3';
-        
+
         pagination_a_1.href = '?page=0';
         pagination_a_2.href = '?page=1';
         pagination_a_3.href = '?page=2';
@@ -150,25 +151,25 @@
         pagination_prev.classList.add('disabled') // 이전 버튼 disabled
       }
       else if (pageNum === totalpages) {
-        pagination_a_1.text = (pageNum-2).toString();
-        pagination_a_2.text = (pageNum-1).toString();
+        pagination_a_1.text = (pageNum - 2).toString();
+        pagination_a_2.text = (pageNum - 1).toString();
         pagination_a_3.text = (pageNum).toString();
-        
-        pagination_a_1.href = '?page=' + (pageNum-2-1).toString();
-        pagination_a_2.href = '?page=' + (pageNum-1-1).toString();
-        pagination_a_3.href = '?page=' + (pageNum-1).toString();
+
+        pagination_a_1.href = '?page=' + (pageNum - 2 - 1).toString();
+        pagination_a_2.href = '?page=' + (pageNum - 1 - 1).toString();
+        pagination_a_3.href = '?page=' + (pageNum - 1).toString();
 
         pagination_li_3.classList.add('active')
         pagination_next.classList.add('disabled')
       }
       else {
-        pagination_a_1.text = (pageNum-1).toString();
+        pagination_a_1.text = (pageNum - 1).toString();
         pagination_a_2.text = (pageNum).toString();
-        pagination_a_3.text = (pageNum+1).toString();
-        
-        pagination_a_1.href = '?page=' + (pageNum-1-1).toString();
-        pagination_a_2.href = '?page=' + (pageNum-1).toString();
-        pagination_a_3.href = '?page=' + (pageNum+1-1).toString();
+        pagination_a_3.text = (pageNum + 1).toString();
+
+        pagination_a_1.href = '?page=' + (pageNum - 1 - 1).toString();
+        pagination_a_2.href = '?page=' + (pageNum - 1).toString();
+        pagination_a_3.href = '?page=' + (pageNum + 1 - 1).toString();
 
         pagination_li_2.classList.add('active')
       }

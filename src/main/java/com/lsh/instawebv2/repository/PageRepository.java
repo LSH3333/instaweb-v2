@@ -19,6 +19,8 @@ public interface PageRepository extends JpaRepository<Page, Long> {
 
     org.springframework.data.domain.Page<Page> findByMember(Member member, Pageable pageable);
 
+    Page findByIdAndMember(Long id, Member member);
+
 //    private final EntityManager em;
 //
 //    @Autowired

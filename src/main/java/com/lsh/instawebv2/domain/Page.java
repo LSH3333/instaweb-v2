@@ -60,4 +60,12 @@ public class Page {
     public void setPastTime(String pastTime) {
         this.pastTime = pastTime;
     }
+
+    // 페이지 수정시 저장 데이터 변경
+    public void update(String content, String frontImg, String frontText, String title) {
+        this.content = content;
+        this.frontImg = frontImg;
+        this.frontText = frontText;
+        this.title = title;
+    }
 }
