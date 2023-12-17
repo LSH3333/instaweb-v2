@@ -23,7 +23,7 @@ spring:
   jpa:
     hibernate:
       # 최초에만 create
-      ddl-auto: none
+      ddl-auto: create
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
@@ -53,6 +53,7 @@ server:
   servlet:
     session:
       timeout: 1800
+
 
   # heroku deploy 시 명시 필수, 로칼에서는 주석 처리
 #  port: ${PORT:5432}
