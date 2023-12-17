@@ -28,6 +28,14 @@ public class Member {
     @OrderBy("createdTime desc") // Page 의 생성 시간 기준 오름차순으로 저장
     private List<Page> pages = new ArrayList<>();
 
+    // Member 가 갖고 있는 Comment 들 리스트
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OrderBy("createdTime desc") // Comment 의 생성 시간 기준 오름차순으로 저장
+    private List<Comment> comments = new ArrayList<>();
+
+
+
+
     public Member() {}
 
     public Member(String username, String password, String role) {
@@ -40,5 +48,7 @@ public class Member {
         this.pages.add(page);
     }
 
-
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 }

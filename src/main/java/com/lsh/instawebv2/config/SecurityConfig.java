@@ -1,5 +1,6 @@
 package com.lsh.instawebv2.config;
 
+import jdk.jfr.Frequency;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,11 +26,13 @@ public class SecurityConfig {
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
                         .requestMatchers("/", "/members", "/members/login", "/errors/**").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+/comments")).permitAll() // Page 에 속한 Comment 요청
                         .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll() // 작성글들은 인증 없이 볼 수 있음
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
                         .requestMatchers("/page/create", "/page/upload",
                                 "/members/pages", // 로그인한 Member 의 글작성 목록
-                                "/pages/[0-9]+/edit") // 로그인한 Member 가 작성한 {pageId} 글 수정
+                                "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
+                                "/comments")
                         .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 
                 )
@@ -38,7 +41,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .loginProcessingUrl("/members/login-proc")
-                        .defaultSuccessUrl("/")
+//                        .defaultSuccessUrl("/")
                         .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
                 )
                 .logout(logoutConfig -> logoutConfig.logoutUrl("/members/logout").logoutSuccessUrl("/"))
@@ -53,6 +56,7 @@ public class SecurityConfig {
     AuthenticationFailureHandler authenticationFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler("/members/login?error=true");
     }
+
 
 
     @Bean

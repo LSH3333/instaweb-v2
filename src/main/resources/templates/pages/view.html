@@ -23,16 +23,147 @@
       </div>
     </div>
     <!-- comment -->
-    <div class="album py-5 bg-body-secondary">
+    <section>
       <div class="container">
-        <div class="input-group d-flex justify-content-center" style="min-width: 860px; width: 860px;">
-          <span class="input-group-text">댓글</span>
-          <textarea class="form-control" aria-label="With textarea"></textarea>
+        <div class="row">
+          <!-- comment 뷰 -->
+          <div id="commentListBox" class="col-sm-5 col-md-6 col-12 pb-4">
+            <h1>Comments</h1>
+            <!-- <div class="comment mt-4 text-justify float-left">
+              <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+              <h4>Jhon Doe</h4>
+              <span>- 20 October, 2018</span>
+              <br>
+              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero
+                sequi velit molestias doloremque molestiae dicta?</p>
+            </div> -->
+          </div>
+          <!-- comment 작성 -->
+          <!-- 로그인시 보이는 영역 -->
+          <div sec:authorize="isAuthenticated()" class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+            <form id="algin-form">
+              <div class="form-group">
+                <h4>Leave a comment</h4>
+                <textarea name="msg" id="commentSubmitTextArea" msg cols="30" rows="5" class="form-control"
+                  style="background-color: black;"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" id="commentSubmitBtn" class="btn">Post Comment</button>
+              </div>
+            </form>
+          </div>
+          <!-- 로그인 아닐시 보이는 영역 -->
+          <div sec:authorize="isAnonymous()" class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+            <form id="algin-form">
+              <div class="form-group">
+                <h4><a href="/templates/members/login.html" th:href=@{/members/login}>Login</a> to leave a comment</h4>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-
+    </section>
   </main>
+
+  <script>
+    const pageId = '[[${page.id}]]';
+    const commentSubmitBtn = document.getElementById('commentSubmitBtn')
+    const commentSubmitTextArea = document.getElementById('commentSubmitTextArea');
+    const commentListBox = document.getElementById('commentListBox')
+
+    // comment 작성 영역은 로그인 아닐시 존재하지 않음 
+    if (commentSubmitBtn) {
+      commentSubmitBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        sendCommentToServerAjax();
+        commentSubmitTextArea.value = "";
+      });
+    }
+
+    // 서버로 작성된 댓글 정보 보냄 
+    function sendCommentToServerAjax() {
+      const formData = new FormData();
+      formData.append("pageId", pageId);
+      formData.append("comment", commentSubmitTextArea.value);
+
+      const sendCommentDataXhr = new XMLHttpRequest();
+      sendCommentDataXhr.open("POST", "/comments", true);
+      sendCommentDataXhr.onload = function () {
+        if (sendCommentDataXhr.status === 200) {
+          console.log("Files uploaded successfully");
+          // getComments();
+        } else {
+          console.log("Files upload failed")
+        }
+      };
+      sendCommentDataXhr.send(formData);
+    }
+
+    // 서버에서 댓글들 불러와서 commentListBox 에 append, 기존에 있던 댓글들 다 지우고 통째로 가져와서 다시 디스플레이
+    function getComments() {
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "/pages/" + pageId + "/comments", true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          if (xhr.status == 200) {
+            // commentListBox.innerHTML = "";
+            // comment.commentContent, comment.createdTime, comment.memberName
+            let comments = JSON.parse(xhr.responseText);
+
+            comments.forEach(function (comment) {
+              console.log(comment.commentContent);
+
+              // container 
+              let container = document.createElement('div');
+              container.classList.add('comment', 'mt-4', 'text-justify', 'float-left')
+              // memberName
+              let memberName = document.createElement('h4');
+              memberName.innerText = comment.memberName;
+              // createdTime 
+              let createdTime = document.createElement('span')
+              const date = new Date(comment.createdTime);
+              const datePart = date.toISOString().split("T")[0];
+              const timePart = date.toTimeString().split(" ")[0];
+              createdTime.innerText = datePart + ". " + timePart;
+              // commentContent
+              let commentContent = document.createElement('p');
+              commentContent.innerText = comment.commentContent;
+
+              container.appendChild(memberName);
+              container.appendChild(createdTime);
+              container.appendChild(document.createElement('br'));
+              container.appendChild(commentContent);
+
+              commentListBox.appendChild(container);
+            })
+
+
+            //   < div class="comment mt-4 text-justify float-left" >
+            //     <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+            //       <h4>Jhon Doe</h4>
+            //       <span>- 20 October, 2018</span>
+            //       <br>
+            //         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero
+            //     sequi velit molestias doloremque molestiae dicta?</p>
+            // </div>
+
+
+          }
+          else {
+            console.error("getComments failed");
+          }
+        }
+      }
+      xhr.send();
+    };
+
+    window.onload = function () {
+      getComments();
+    };
+
+  </script>
 </body>
 
 </html>

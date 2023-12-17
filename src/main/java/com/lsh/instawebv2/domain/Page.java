@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -38,6 +40,13 @@ public class Page {
     // Page가 생성된지 얼마나 지났는지. "9 min", "2 days" ..
     private String pastTime;
 
+    @OneToMany(mappedBy = "page", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("createdTime desc") // Comment 의 생성 시간 기준 오름차순으로 저장
+    private List<Comment> comments = new ArrayList<>();
+
+
+
+
     public Page(){}
 
     public Page(String content, LocalDateTime createdTime, String frontImg, String frontText, String title) {
@@ -67,5 +76,9 @@ public class Page {
         this.frontImg = frontImg;
         this.frontText = frontText;
         this.title = title;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }
