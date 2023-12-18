@@ -7,6 +7,7 @@ import com.lsh.instawebv2.dto.CommentDto;
 import com.lsh.instawebv2.repository.CommentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,20 @@ public class CommentService {
             commentDtoList.add(new CommentDto(comment));
         }
         return commentDtoList;
+    }
+
+    public ResponseEntity<String> delete(Long id, String username) {
+        Comment comment = commentRepository.findById(id);
+        // 삭제하려는 Comment 의 소유자 확인
+        if (comment.getMember().getUsername().equals(username)) {
+            commentRepository.delete(id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("delete", "success");
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("delete", "fail");
+            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+        }
     }
 }

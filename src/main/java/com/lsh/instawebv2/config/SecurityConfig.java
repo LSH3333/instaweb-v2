@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 
@@ -32,17 +33,18 @@ public class SecurityConfig {
                         .requestMatchers("/page/create", "/page/upload",
                                 "/members/pages", // 로그인한 Member 의 글작성 목록
                                 "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
-                                "/comments")
+                                "/comments", // Comment 작성
+                                "/comments/[0-9]+") // Comment 삭제
                         .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/members/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .loginProcessingUrl("/members/login-proc")
+                                .loginPage("/members/login")
+                                .usernameParameter("username")
+                                .passwordParameter("password")
+                                .loginProcessingUrl("/members/login-proc")
 //                        .defaultSuccessUrl("/")
-                        .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
+                                .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
                 )
                 .logout(logoutConfig -> logoutConfig.logoutUrl("/members/logout").logoutSuccessUrl("/"))
                 .csrf(csrf -> csrf.disable());

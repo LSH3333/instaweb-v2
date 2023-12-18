@@ -9,6 +9,23 @@
       font-weight: bold;
       font-size: x-large;
     }
+
+    .comment-createdTime {
+      font-size: xx-small;
+      color: gray;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-memberName {
+      margin-bottom: 0;
+    }
+
+    .comment-deleteAnchor {
+      margin-left: 10px;
+      font-size: xx-small;
+      color: gray;
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 
@@ -118,43 +135,39 @@
             let comments = JSON.parse(xhr.responseText);
 
             comments.forEach(function (comment) {
-              console.log(comment.createdTime);
+              console.log(comment.id);
 
               // container 
               let container = document.createElement('div');
               container.classList.add('comment', 'mt-4', 'text-justify', 'float-left')
               // memberName
               let memberName = document.createElement('h4');
+              memberName.classList.add('comment-memberName')
               memberName.innerText = comment.memberName;
               // createdTime 
               let createdTime = document.createElement('span')
+              createdTime.classList.add('comment-createdTime')
               const date = new Date(comment.createdTime);
               const datePart = date.toISOString().split("T")[0];
               const timePart = date.toTimeString().split(" ")[0];
               createdTime.innerText = datePart + ". " + timePart;
+              // delete anchor
+              let deleteAnchor = document.createElement('a')
+              deleteAnchor.classList.add('comment-deleteAnchor')
+              deleteAnchor.href = '/comments/' + comment.id;
+              deleteAnchor.innerText = '삭제';
               // commentContent
               let commentContent = document.createElement('p');
               commentContent.innerText = comment.commentContent;
 
               container.appendChild(memberName);
               container.appendChild(createdTime);
+              container.appendChild(deleteAnchor);
               container.appendChild(document.createElement('br'));
               container.appendChild(commentContent);
 
               commentListBox.appendChild(container);
             })
-
-
-            //   < div class="comment mt-4 text-justify float-left" >
-            //     <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
-            //       <h4>Jhon Doe</h4>
-            //       <span>- 20 October, 2018</span>
-            //       <br>
-            //         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero
-            //     sequi velit molestias doloremque molestiae dicta?</p>
-            // </div>
-
-
           }
           else {
             console.error("getComments failed");
@@ -163,6 +176,41 @@
       }
       xhr.send();
     };
+
+    ///////////////////////////////// DELETE COMMENT 
+    function deleteComment(commentDeleteAnchor) {
+
+      console.log(commentDeleteAnchor.href)
+      const deleteCommentXhr = new XMLHttpRequest();
+      deleteCommentXhr.open("DELETE", commentDeleteAnchor.href, true);
+
+      deleteCommentXhr.onload = function () {
+        if (deleteCommentXhr.status === 200) {
+          console.log("Comment deleted successfully");
+          getComments(); // 댓글 서버에서 삭제 완료 후 다시 댓글들 랜더링 
+        } else {
+          console.log("Comment delete failed")
+          alert("권한이 없습니다.");
+        }
+      };
+      deleteCommentXhr.send();
+    }
+
+    commentListBox.addEventListener("click", function (event) {
+      if (event.target.matches(".comment-deleteAnchor")) {
+        event.preventDefault();
+        // 정말 삭제하시겠습니까? 팝업 띄워서 사용자가 확인 누르면 댓글 삭제 
+        if (confirmDelete()) {
+          deleteComment(event.target);
+        }
+      }
+    });
+
+    function confirmDelete() {
+      var confirmation = confirm("정말 삭제하시겠습니까?");
+      return confirmation;
+    }
+
 
     window.onload = function () {
       getComments();

@@ -18,8 +18,17 @@ public class CommentRepository {
         this.em = em;
     }
 
+    public Comment findById(Long id) {
+        return em.find(Comment.class, id);
+    }
+
     public void save(Comment comment) {
         em.persist(comment);
+    }
+
+    public void delete(Long id) {
+        Comment comment = em.find(Comment.class, id);
+        em.remove(comment);
     }
 
     /**

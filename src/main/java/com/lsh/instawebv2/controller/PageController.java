@@ -99,13 +99,7 @@ public class PageController {
 
     @GetMapping("/pages/{pageId}/edit")
     public String editPageView(Model model, Principal principal, @PathVariable("pageId") String pageId) {
-
         Member member = memberService.findByUsername(principal.getName()).orElse(null);
-        // 인증 안된 상태면 로그인으로 리다이렉트
-        if (member == null) {
-            // LoginController 에 매핑된 메소드에 다시 요청 보냄
-            return "redirect:/members/login";
-        }
 
         Page page = pageService.findByIdAndMember(Long.parseLong(pageId), member);
         // 수정하려는 Page 가 Member 소유 아니라면

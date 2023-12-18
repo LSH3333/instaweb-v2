@@ -7,6 +7,8 @@ import com.lsh.instawebv2.service.CommentService;
 import com.lsh.instawebv2.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,12 @@ import java.util.Map;
 public class CommentController {
 
     private final CommentService commentService;
+    private final MemberService memberService;
 
     @Autowired
-    public CommentController(CommentService commentService) {
+    public CommentController(CommentService commentService, MemberService memberService) {
         this.commentService = commentService;
+        this.memberService = memberService;
     }
 
     /**
@@ -52,5 +56,23 @@ public class CommentController {
         List<CommentDto> comments = commentService.findByPageId(pageId);
         return ResponseEntity.ok(comments);
     }
+
+    /**
+     * comment 삭제
+     * @param commentId : 삭제할 comment 의 id
+     * @return : 성공 시 httpStatus.OK, 실패시 httpStatus.BAD_REQUEST
+     */
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<String> delete(@PathVariable("commentId") Long commentId, Principal principal) {
+        Member member = memberService.findByUsername(principal.getName()).orElse(null);
+        // 내가 작성한 댓글이 아니라면 BAD REQUEST 리턴
+        if (member == null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("delete", "fail");
+            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+        }
+        return commentService.delete(commentId, principal.getName());
+    }
+
 
 }
