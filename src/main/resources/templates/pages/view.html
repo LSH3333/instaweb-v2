@@ -91,7 +91,7 @@
       sendCommentDataXhr.onload = function () {
         if (sendCommentDataXhr.status === 200) {
           console.log("Files uploaded successfully");
-          // getComments();
+          getComments();
         } else {
           console.log("Files upload failed")
         }
@@ -108,12 +108,17 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           if (xhr.status == 200) {
-            // commentListBox.innerHTML = "";
+            // commentListBox 비운 후 등록된 댓글들 불러오기 
+            commentListBox.innerHTML = "";
+            let commentHeader = document.createElement('h1')
+            commentHeader.innerText = 'Comments'
+            commentListBox.appendChild(commentHeader)
+
             // comment.commentContent, comment.createdTime, comment.memberName
             let comments = JSON.parse(xhr.responseText);
 
             comments.forEach(function (comment) {
-              console.log(comment.commentContent);
+              console.log(comment.createdTime);
 
               // container 
               let container = document.createElement('div');

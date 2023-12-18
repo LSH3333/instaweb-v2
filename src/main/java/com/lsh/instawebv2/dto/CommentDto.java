@@ -13,7 +13,7 @@ public class CommentDto {
 
     public CommentDto(Comment comment) {
         this.commentContent = comment.getCommentContent();
-        this.createdTime = LocalDateTime.now();
+        this.createdTime = comment.getCreatedTime();
         this.memberName = comment.getMember().getUsername();
     }
 }

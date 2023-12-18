@@ -26,6 +26,13 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    /**
+     * 댓글 작성
+     * @param pageId
+     * @param commentContent
+     * @param principal
+     * @return
+     */
     @PostMapping("/comments")
     public ResponseEntity<String> comments(@RequestParam("pageId") String pageId,
                                            @RequestParam("comment") String commentContent,
@@ -42,7 +49,6 @@ public class CommentController {
      */
     @GetMapping("/pages/{pageId}/comments")
     public  ResponseEntity<List<CommentDto>> getComments(@PathVariable("pageId") Long pageId) {
-        log.info("getComments()");
         List<CommentDto> comments = commentService.findByPageId(pageId);
         return ResponseEntity.ok(comments);
     }

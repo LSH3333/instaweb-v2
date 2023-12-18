@@ -41,7 +41,7 @@ public class Page {
     private String pastTime;
 
     @OneToMany(mappedBy = "page", orphanRemoval = true, fetch = FetchType.LAZY)
-    @OrderBy("createdTime desc") // Comment 의 생성 시간 기준 오름차순으로 저장
+    @OrderBy("createdTime desc")
     private List<Comment> comments = new ArrayList<>();
 
 

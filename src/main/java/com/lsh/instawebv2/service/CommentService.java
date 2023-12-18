@@ -62,8 +62,13 @@ public class CommentService {
         return ResponseEntity.status(HttpStatus.OK).body("Comments uploaded successfully!");
     }
 
+    /**
+     * Page 에 작성된 Comment 들 작성시간 기준 내림차순으로 가져옴 (Comment 는 Page 에 @OrderBy("createdTime desc") 로 저장됨)
+     * @param pageId : 작성된 Comment 들이 속한 Page 의 id
+     * @return : 작성시간 기준 내림차순 정렬된 Comment 들을 List<CommentDto> 에 담아서 리턴
+     */
     public List<CommentDto> findByPageId(Long pageId) {
-        List<Comment> comments = commentRepository.findByPageId(pageId);
+        List<Comment> comments = commentRepository.findByPageId(pageService.findOne(pageId));
         List<CommentDto> commentDtoList = new ArrayList<>();
         for (Comment comment : comments) {
             commentDtoList.add(new CommentDto(comment));
