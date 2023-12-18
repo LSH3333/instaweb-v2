@@ -37,15 +37,11 @@ public class LoginController {
      * 로그인 뷰로. 실제 로그인 처리는 spring security 가 수행.
      * @return : 로그인 뷰
      */
-    @GetMapping("/members/login")
+    @GetMapping("/login")
     public String loginForm() {
-        return "members/login";
+        return "login";
     }
 
-//    @PostMapping("/members/login-proc")
-//    public String login() {
-//        return "index";
-//    }
 
     /**
      * 임시 디버그용 메소드.

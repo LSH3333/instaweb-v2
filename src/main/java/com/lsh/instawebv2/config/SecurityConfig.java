@@ -1,6 +1,5 @@
 package com.lsh.instawebv2.config;
 
-import jdk.jfr.Frequency;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,8 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 
@@ -26,7 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/members", "/members/login", "/errors/**").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers("/", "/members", "/members/login", "/errors/**", "/login").permitAll() // 인증없이 접근 가능 경로
                         .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+/comments")).permitAll() // Page 에 속한 Comment 요청
                         .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll() // 작성글들은 인증 없이 볼 수 있음
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
@@ -39,14 +36,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능 
                 )
                 .formLogin(formLogin -> formLogin
-                                .loginPage("/members/login")
+                                .loginPage("/login")
                                 .usernameParameter("username")
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/members/login-proc")
-//                        .defaultSuccessUrl("/")
+                                .permitAll()
                                 .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
+
                 )
-                .logout(logoutConfig -> logoutConfig.logoutUrl("/members/logout").logoutSuccessUrl("/"))
                 .csrf(csrf -> csrf.disable());
 
 
@@ -56,8 +52,9 @@ public class SecurityConfig {
     // 로그인 실패 핸들러
     @Bean
     AuthenticationFailureHandler authenticationFailureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler("/members/login?error=true");
+        return new SimpleUrlAuthenticationFailureHandler("/login?error=true");
     }
+
 
 
 
