@@ -5,7 +5,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     platform: postgres
     # local
-    url: jdbc:postgresql://localhost:5432/instaweb-v2
+    url: jdbc:postgresql://localhost:5432/instawebv2
     username: admin_jake
     password: admin_jake
     # heroku deploy
@@ -23,7 +23,7 @@ spring:
   jpa:
     hibernate:
       # 최초에만 create
-      ddl-auto: none
+      ddl-auto: create
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
