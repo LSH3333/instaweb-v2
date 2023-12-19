@@ -26,6 +26,10 @@ public class MemberService {
         memberRepository.save(makeNewMember(username, password));
     }
 
+    public void save(Member member) {
+        memberRepository.save(member);
+    }
+
     // "ROLE_USER" 의 role 을 갖는 member 등록
     // password 는 암호화
     private Member makeNewMember(String username, String password) {

@@ -1,11 +1,14 @@
 package com.lsh.instawebv2.config.auth;
 
 import com.lsh.instawebv2.domain.Member;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 
 /**
@@ -15,12 +18,23 @@ import java.util.Collection;
  * 그리고 Authentication 내부에 User 의 정보가 보관된다
  * User 의 타입은 UserDetails 타입으로 저장된다
  */
-public class PrincipalDetails implements UserDetails {
+@Getter
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private Member member;
 
+    // OAuth2User 에 담겨있는 attributes
+    private Map<String, Object> attributes;
+
+    // 일반 로그인 생성자
     public PrincipalDetails(Member member) {
         this.member = member;
+    }
+
+    // OAuth2 로그인 생성자
+    public PrincipalDetails(Member member, Map<String,Object> attributes) {
+        this.member = member;
+        this.attributes = attributes;
     }
 
     // 해당 User 의 권한을 리턴
@@ -72,4 +86,17 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+    // OAuth2User impl
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.attributes;
+    }
+
+    @Override
+    public String getName() {
+        return (String) this.attributes.get("sub");
+    }
+
 }

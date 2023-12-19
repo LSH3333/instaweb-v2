@@ -4,10 +4,12 @@ import com.lsh.instawebv2.config.oauth.PrincipalOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,8 +22,13 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final PrincipalOAuth2UserService principalOAuth2UserService;
+
     @Autowired
-    private PrincipalOAuth2UserService principalOAuth2UserService;
+    public SecurityConfig(PrincipalOAuth2UserService principalOAuth2UserService) {
+        this.principalOAuth2UserService = principalOAuth2UserService;
+    }
+
 
 
     @Bean
@@ -51,9 +58,11 @@ public class SecurityConfig {
                                 .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
 
                 )
+                // OAuth2 로그인 처리
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/login")
                         .userInfoEndpoint(userInfo -> userInfo
+                                // PrincipalOAuth2UserService extends DefaultOAuth2UserService 가 회원가입 처리함
                                 .userService(principalOAuth2UserService))
                 )
                 .csrf(csrf -> csrf.disable());
@@ -63,20 +72,11 @@ public class SecurityConfig {
     }
 
 
-
-//    @Bean
-//    PrincipalOAuth2UserService principalOAuth2UserService() {
-//        return new PrincipalOAuth2UserService();
-//    }
-
     // 로그인 실패 핸들러
     @Bean
     AuthenticationFailureHandler authenticationFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler("/login?error=true");
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }
