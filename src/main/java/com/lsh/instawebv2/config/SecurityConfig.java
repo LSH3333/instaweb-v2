@@ -1,7 +1,11 @@
 package com.lsh.instawebv2.config;
 
+import com.lsh.instawebv2.config.oauth.PrincipalOAuth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +19,10 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private PrincipalOAuth2UserService principalOAuth2UserService;
+
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,20 +51,29 @@ public class SecurityConfig {
                                 .failureHandler(authenticationFailureHandler()) // 로그인 실패시 핸들러
 
                 )
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(principalOAuth2UserService))
+                )
                 .csrf(csrf -> csrf.disable());
 
 
         return http.build();
     }
 
+
+
+//    @Bean
+//    PrincipalOAuth2UserService principalOAuth2UserService() {
+//        return new PrincipalOAuth2UserService();
+//    }
+
     // 로그인 실패 핸들러
     @Bean
     AuthenticationFailureHandler authenticationFailureHandler() {
         return new SimpleUrlAuthenticationFailureHandler("/login?error=true");
     }
-
-
-
 
     @Bean
     PasswordEncoder passwordEncoder() {

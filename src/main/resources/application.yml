@@ -34,11 +34,20 @@ spring:
     open-in-view: false
     generate-ddl: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
 
   servlet:
     multipart:
       maxFileSize: 50MB
       maxRequestSize: 50MB
+
+
 
 logging:
   level:
