@@ -46,7 +46,7 @@ spring:
               - email
             #redirect-uri: CommonOAuth2Provider 에서 구글은 기본으로 설정되어 있음 : "{baseUrl}/{action}/oauth2/code/{registrationId}"
 
-          naver:
+          naver: # https://developers.naver.com/docs/login/devguide/devguide.md
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
             scope:
@@ -56,6 +56,17 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: ${NAVER_REDIRECT_URI}
 
+          kakao: # https://developers.kakao.com/docs/latest/ko/kakaologin/common#user-info
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            client-authentication-method: client_secret_post
+            scope:
+              - profile_nickname
+#              - account_email # 카카오는 email 받으려면 비즈니스앱으로 전환 필요
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+
         provider:
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
@@ -64,6 +75,12 @@ spring:
             user-info-authentication-method: header
             user-name-attribute: response # Naver 응답 json: resultCode, message, response 중 response 지정
 
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-info-authentication-method: header
+            user-name-attribute: id # Kakao 응답 값 id, connected_at, properties, kakao_account 중 id 지정
 
 
 

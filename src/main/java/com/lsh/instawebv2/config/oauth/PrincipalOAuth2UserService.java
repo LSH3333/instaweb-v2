@@ -2,6 +2,7 @@ package com.lsh.instawebv2.config.oauth;
 
 import com.lsh.instawebv2.config.auth.PrincipalDetails;
 import com.lsh.instawebv2.config.oauth.provider.GoogleUserInfo;
+import com.lsh.instawebv2.config.oauth.provider.KakaoUserInfo;
 import com.lsh.instawebv2.config.oauth.provider.NaverUserInfo;
 import com.lsh.instawebv2.config.oauth.provider.OAuth2UserInfo;
 import com.lsh.instawebv2.domain.Member;
@@ -55,15 +56,23 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         log.info("super.loadUser(userRequest).getAttributes() = {}", oAuth2User.getAttributes());
 
         OAuth2UserInfo oAuth2UserInfo = null;
+        // GOOGLE
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+        }
+        // NAVER
+        else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
             // naver 가 리턴 해주는 json
             // oAuth2User.getAttributes() = {resultcode=00, message=success, response={id=Espin_Vgi-JRn4SxQzLlTDg1Pz58s-DL3ZXN1GkGphQ, email=chadol51@naver.com, name=이세현}}
             oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
+        }
+        // KAKAO
+        else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            // oAuth2User.getAttributes() = {id=3233146583, connected_at=2023-12-20T04:09:49Z, properties={nickname=이세현}, kakao_account={profile_nickname_needs_agreement=false, profile={nickname=이세현}}}
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
             log.info("지원하지 않는 provider");
-            throw  new OAuth2AuthenticationException("지원하지 않는 provider");
+            throw new OAuth2AuthenticationException("지원하지 않는 provider");
         }
 
 
