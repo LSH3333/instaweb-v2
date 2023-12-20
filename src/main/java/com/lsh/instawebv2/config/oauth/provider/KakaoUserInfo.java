@@ -22,10 +22,10 @@ public class KakaoUserInfo implements OAuth2UserInfo {
         return "kakao";
     }
 
-    // kakao 는 email 안 받음
+    // kakao 는 email 안 받음, 만약 email 필요하다면 nickname 으로 대체
     @Override
     public String getEmail() {
-        return null;
+        return getName();
     }
 
     @Override

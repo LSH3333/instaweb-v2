@@ -59,6 +59,7 @@ public class PageController {
             page = 0;
         }
 
+        // pastTime(작성시간으로 부터 지난 시간) 계산
         for (Page curPage : pages) {
             String diff = PageService.getTime(curPage.getCreatedTime());
             curPage.setPastTime(diff);

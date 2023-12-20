@@ -48,6 +48,14 @@ public class MemberController {
         if(member.getUsername().length() < 4 || member.getUsername().length() > 10) {
             bindingResult.addError(new FieldError("member", "username", member.getUsername(), false, null, null,"4글자 이상 10글자 이하"));
         }
+        // email (OAuth2 아닌 일반 회원의 경우 nickname) 는 영어와 숫자로만 이루어져 있어야 한다
+        if (!containOnlyEngAndNum(member.getEmail())) {
+            bindingResult.addError(new FieldError("member", "email", member.getEmail(), false, null, null, "영어와 숫자만 가능"));
+        }
+        // email 은 4글자 이상 10 글자 이하
+        if(member.getEmail().length() < 4 || member.getEmail().length() > 10) {
+            bindingResult.addError(new FieldError("member", "email", member.getEmail(), false, null, null,"4글자 이상 10글자 이하"));
+        }
         // password 는 4글자 이상 10 글자 이하
         if(member.getPassword().length() < 4 || member.getUsername().length() > 10) {
             bindingResult.addError(new FieldError("member", "password", member.getPassword(), false, null, null,"4글자 이상 10글자 이하"));
@@ -63,7 +71,7 @@ public class MemberController {
         }
 
         // 회원 등록
-        memberService.save(member.getUsername(), member.getPassword());
+        memberService.save(member.getUsername(), member.getPassword(), member.getEmail());
 
         return "redirect:/";
     }

@@ -70,6 +70,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
             // oAuth2User.getAttributes() = {id=3233146583, connected_at=2023-12-20T04:09:49Z, properties={nickname=이세현}, kakao_account={profile_nickname_needs_agreement=false, profile={nickname=이세현}}}
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+
         } else {
             log.info("지원하지 않는 provider");
             throw new OAuth2AuthenticationException("지원하지 않는 provider");

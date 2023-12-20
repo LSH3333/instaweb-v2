@@ -27,6 +27,7 @@ public class Member {
 
     private String role; // ROLE_USER, ROLE_ADMIN
 
+    @NotEmpty(message = "비어있을수 없습니다")
     private String email;
     private String provider; // google, kakao ..
     private String providerId;
@@ -47,10 +48,11 @@ public class Member {
 
     public Member() {}
 
-    public Member(String username, String password, String role) {
+    public Member(String username, String password, String role, String email) {
         this.username = username;
         this .password = password;
         this.role = role;
+        this.email = email;
     }
 
     // oauth2 register

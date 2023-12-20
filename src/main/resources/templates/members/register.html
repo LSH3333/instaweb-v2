@@ -24,7 +24,13 @@
                         <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="name">
                         <label for="username" th:unless="${#fields.hasErrors('username')}">Login name</label>
                         <label style="color: red;" for="username" th:if="${#fields.hasErrors('username')}"
-                            th:errors="*{username}">Login name can't be empty</label>
+                            th:errors="*{username}">Username can't be empty</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="name">
+                        <label for="email" th:unless="${#fields.hasErrors('email')}">Nickname</label>
+                        <label style="color: red;" for="email" th:if="${#fields.hasErrors('email')}"
+                            th:errors="*{email}">Nickname can't be empty</label>
                     </div>
                     <div class="form-floating">
                         <input type="password" th:field="*{password}" class="form-control" id="password"

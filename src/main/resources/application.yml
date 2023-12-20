@@ -23,7 +23,7 @@ spring:
   jpa:
     hibernate:
       # 최초에만 create
-      ddl-auto: none
+      ddl-auto: create
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
@@ -46,7 +46,8 @@ spring:
               - email
             #redirect-uri: CommonOAuth2Provider 에서 구글은 기본으로 설정되어 있음 : "{baseUrl}/{action}/oauth2/code/{registrationId}"
 
-          naver: # https://developers.naver.com/docs/login/devguide/devguide.md
+          # https://developers.naver.com/docs/login/devguide/devguide.md
+          naver:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
             scope:

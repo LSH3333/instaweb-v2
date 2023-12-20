@@ -1,21 +1,13 @@
 package com.lsh.instawebv2.controller;
 
-import com.lsh.instawebv2.SessionConst;
 import com.lsh.instawebv2.config.auth.PrincipalDetails;
 import com.lsh.instawebv2.domain.Member;
-import com.lsh.instawebv2.dto.LoginForm;
-import com.lsh.instawebv2.service.LoginService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +16,6 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 public class LoginController {
-
-    private final LoginService loginService;
-
-    @Autowired
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
-    }
 
     /**
      * 로그인 뷰로. 실제 로그인 처리는 spring security 가 수행.

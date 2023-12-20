@@ -46,6 +46,7 @@
                     <div class="card-body">
                       <!-- content 미리보기 -->
                       <p class="card-text" th:text="${page.frontText}">This is page content</p>
+                      <small th:text="${page.member.email}" class="text-body-secondary">Writer</small>
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                           <!-- view btn -->

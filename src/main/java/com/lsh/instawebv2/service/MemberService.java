@@ -22,8 +22,8 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void save(String username, String password) {
-        memberRepository.save(makeNewMember(username, password));
+    public void save(String username, String password, String email) {
+        memberRepository.save(makeNewMember(username, password, email));
     }
 
     public void save(Member member) {
@@ -32,8 +32,8 @@ public class MemberService {
 
     // "ROLE_USER" 의 role 을 갖는 member 등록
     // password 는 암호화
-    private Member makeNewMember(String username, String password) {
-        return new Member(username, passwordEncoder.encode(password), "ROLE_USER");
+    private Member makeNewMember(String username, String password, String email) {
+        return new Member(username, passwordEncoder.encode(password), "ROLE_USER", email);
     }
 
     /**
