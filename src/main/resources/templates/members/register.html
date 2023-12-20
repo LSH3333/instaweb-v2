@@ -13,42 +13,48 @@
     </style>
 </head>
 
-<body layout:fragment="content" class="bg-body-tertiary">
+<body layout:fragment="content">
+    <main>
+        <div class="py-4 bg-body-tertiary">
+            <div class="form-signin w-100 m-auto">
+                <form action="#" th:object="${member}" method="post">
+                    <h1 class="h3 mb-3 fw-normal">회원가입</h1>
+
+                    <div class="form-floating">
+                        <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="name">
+                        <label for="username" th:unless="${#fields.hasErrors('username')}">Login name</label>
+                        <label style="color: red;" for="username" th:if="${#fields.hasErrors('username')}"
+                            th:errors="*{username}">Login name can't be empty</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="password" th:field="*{password}" class="form-control" id="password"
+                            placeholder="Password">
+                        <label for="password" th:unless="${#fields.hasErrors('password')}">Password</label>
+                        <label style="color: red;" for="password" th:if="${#fields.hasErrors('password')}"
+                            th:errors="*{password}">password can't be empty</label>
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-2" type="submit">회원가입</button>
+                    <div class="mt-3">
+                        <!-- google oauth2 login -->
+                        <a href="" th:href="@{/oauth2/authorization/google}"><img class="oauth2-btn"
+                                src="/static/img/web_neutral_rd_na@1x.png" th:src="@{/img/web_neutral_rd_na@1x.png}"
+                                alt=""></a>
+                        <!-- naver oauth2 login -->
+                        <a href="" th:href="@{/oauth2/authorization/naver}"><img class="oauth2-btn"
+                                src="/static/img/btnW_아이콘원형.png" th:src="@{/img/btnW_아이콘원형.png}" alt=""></a>
+                        <!-- kakao oauth2 login -->
+                        <a href="" th:href="@{/oauth2/authorization/kakao}"><img class="oauth2-btn"
+                                src="/static/img/kakaotalk_sharing_btn_small.png"
+                                th:src="@{/img/kakaotalk_sharing_btn_small.png}" alt=""></a>
+                    </div>
+                    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+                </form>
+            </div>
+        </div>
+    </main>
     <!-- form -->
-    <div class="d-flex align-items-center py-4" style="height: 100%;">
-        <main class="form-signin w-100 m-auto">
-            <form action="#" th:object="${member}" method="post">
-                <h1 class="h3 mb-3 fw-normal">Please Register</h1>
-
-                <div class="form-floating">
-                    <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="name">
-                    <label for="username" th:unless="${#fields.hasErrors('username')}">Login name</label>
-                    <label style="color: red;" for="username" th:if="${#fields.hasErrors('username')}"
-                        th:errors="*{username}">Login name can't be empty</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" th:field="*{password}" class="form-control" id="password"
-                        placeholder="Password">
-                    <label for="password" th:unless="${#fields.hasErrors('password')}">Password</label>
-                    <label style="color: red;" for="password" th:if="${#fields.hasErrors('password')}"
-                        th:errors="*{password}">password can't be empty</label>
-                </div>
-
-                <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-                <div class="mt-3">
-                    <!-- google oauth2 login -->
-                    <a  href="" th:href="@{/oauth2/authorization/google}"><img class="oauth2-btn" src="/static/img/web_neutral_rd_na@1x.png" th:src="@{/img/web_neutral_rd_na@1x.png}" alt=""></a>                    
-                    <!-- naver oauth2 login -->
-                    <a  href="" th:href="@{/oauth2/authorization/naver}"><img class="oauth2-btn" src="/static/img/btnW_아이콘원형.png" th:src="@{/img/btnW_아이콘원형.png}" alt=""></a>                    
-                    <!-- kakao oauth2 login -->
-                    <a  href="" th:href="@{/oauth2/authorization/kakao}"><img class="oauth2-btn" src="/static/img/kakaotalk_sharing_btn_small.png" th:src="@{/img/kakaotalk_sharing_btn_small.png}" alt=""></a>                    
-                </div>
-                <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-            </form>
-
-
-        </main>
-    </div>
+    
 
 </body>
 

@@ -5,7 +5,6 @@
 <head>
     <title>글 수정</title>
 
-
     <!-- ckeditor5 -->
     <link rel="icon" type="image/png" href="https://c.cksource.com/a/1/logos/ckeditor5.png">
     <link rel="stylesheet" type="text/css" href="/static/css/ckeditor5.css" th:href="@{/css/ckeditor5.css}">
@@ -24,16 +23,19 @@
             min-width: 860px;
         }
     </style>
+
+    <!-- <script src="/static/bootstrap/js/color-modes.js" th:src="@{/bootstrap/js/color-modes.js}"></script> -->
+    <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"> -->
 </head>
 
 <body layout:fragment="content">
     <main>
-        <div th:text="${page.title}"></div>
         <div class="album py-5 bg-body-tertiary">
             <div class="container">
                 <!-- title -->
                 <form action="" class="d-flex justify-content-center mb-5">
-                    <input id="input-title" placeholder="제목을 입력하세요" type="text" style="min-width: 860px; height: 40px;">
+                    <input th:value="${page.title}" id="input-title" placeholder="제목을 입력하세요" type="text"
+                        style="min-width: 860px; height: 40px;">
                 </form>
                 <!-- ckeditor -->
                 <div class="centered">
@@ -56,7 +58,6 @@
 
     <script>
         const pageId = '[[${page.id}]]'
-        console.log('pageId = ' + pageId)
     </script>
 
     <!-- ckeditor5 -->
@@ -78,6 +79,7 @@
             editorInstance.setData(content);
         }
     </script>
+
 </body>
 
 </html>

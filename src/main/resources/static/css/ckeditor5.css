@@ -484,10 +484,10 @@ main .message h2 {
 }
 
 footer {
-	margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);
+	/* margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);
 	font-size: .8em;
 	text-align: center;
-	color: rgba(0,0,0,.4);
+	color: rgba(0,0,0,.4); */
 }
 
 /* --------- RWD --------------------------------------------------------------------------------------------------- */
