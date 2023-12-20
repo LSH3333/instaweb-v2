@@ -1,6 +1,9 @@
 package com.lsh.instawebv2.config.oauth;
 
 import com.lsh.instawebv2.config.auth.PrincipalDetails;
+import com.lsh.instawebv2.config.oauth.provider.GoogleUserInfo;
+import com.lsh.instawebv2.config.oauth.provider.NaverUserInfo;
+import com.lsh.instawebv2.config.oauth.provider.OAuth2UserInfo;
 import com.lsh.instawebv2.domain.Member;
 import com.lsh.instawebv2.repository.MemberRepository;
 import com.lsh.instawebv2.service.MemberService;
@@ -15,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 @Service
@@ -50,10 +54,23 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         // {sub=113278514104204816500, name=이세현, given_name=세현, family_name=이, picture=https://lh3.googleusercontent.com/a/ACg8ocLjmyFdD4xwZx25hfhq4DEzJ7HpOiEH11PvmGg6RD-c=s96-c, email=dltpgustpgus@gmail.com, email_verified=true, locale=ko}
         log.info("super.loadUser(userRequest).getAttributes() = {}", oAuth2User.getAttributes());
 
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            // naver 가 리턴 해주는 json
+            // oAuth2User.getAttributes() = {resultcode=00, message=success, response={id=Espin_Vgi-JRn4SxQzLlTDg1Pz58s-DL3ZXN1GkGphQ, email=chadol51@naver.com, name=이세현}}
+            oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
+        } else {
+            log.info("지원하지 않는 provider");
+            throw  new OAuth2AuthenticationException("지원하지 않는 provider");
+        }
+
+
         // 회원가입
-        String provider = userRequest.getClientRegistration().getClientId(); // google
-        String providerId = oAuth2User.getAttribute("sub");
-        String email = oAuth2User.getAttribute("email");
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
+        String email = oAuth2UserInfo.getEmail();
         String username = provider + "_" + providerId; // google_45312134...
         String password = passwordEncoder.encode("password");
         String role = "ROLE_USER";
