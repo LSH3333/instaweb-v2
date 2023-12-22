@@ -27,7 +27,7 @@ main .ck-editor[role='application'] .ck.ck-content,
 	width: 100%;
 	background: #fff;
 	font-size: 1em;
-	line-height: 1.6em;
+	line-height: 0.5em;
 	min-height: var(--ck-sample-editor-min-height);
 	padding: 1.5em 2em;
 }
@@ -364,7 +364,7 @@ body[data-revision-history='true'] .ck.ck-pagination-view-line::after {
 }
 
 /* --------- SAMPLE GENERIC STYLES (not related to CKEditor) ------------------------------------------------------- */
-body, html {
+/* body, html {
 	padding: 0;
 	margin: 0;
 
@@ -481,7 +481,7 @@ main .message h2 {
 .btn--tiny {
 	padding: 6px 12px;
 	font-size: .8rem;
-}
+} */
 
 footer {
 	/* margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);

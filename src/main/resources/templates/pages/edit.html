@@ -6,7 +6,6 @@
     <title>글 수정</title>
 
     <!-- ckeditor5 -->
-    <link rel="icon" type="image/png" href="https://c.cksource.com/a/1/logos/ckeditor5.png">
     <link rel="stylesheet" type="text/css" href="/static/css/ckeditor5.css" th:href="@{/css/ckeditor5.css}">
 
     <!-- ckeditor5 -->
@@ -24,13 +23,14 @@
         }
     </style>
 
+    <!-- 에디터 스타일  -->
     <style>
-        header {
-            font-size: var(--bs-body-font-size);            
+        .editor-container {
+            font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 16px;
+            color: black;
         }
     </style>
-    <!-- <script src="/static/bootstrap/js/color-modes.js" th:src="@{/bootstrap/js/color-modes.js}"></script> -->
-    <!-- <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}"> -->
 </head>
 
 <body layout:fragment="content">
