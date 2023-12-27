@@ -30,34 +30,6 @@ public class LoginController {
 
     ////////////////////////////////// TEST
 
-    /**
-     * 임시 디버그용 메소드.
-     * 현재 로그인 되어있는 사용자 정보 로깅
-     */
-    @GetMapping("/members/info")
-    public String info() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated()) {
-            // Get the username
-            String username = authentication.getName();
-
-            List<String> roles = authentication.getAuthorities()
-                    .stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
-
-            log.info("username = {}, role = {}", username, roles);
-
-            //
-            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            Member member = principalDetails.getMember();
-            log.info("authentication = {}", member);
-        }
-
-        return "index";
-    }
-
     // 세션 내부에 스프링이 관리하는 SecurityContextHolder 가 있고,
     // SecurityContextHolder 내부에 SecurityContext 가 있고 그 안에는 Authentication 타입만 들어갈수 있다
     // Authentication 은 2가지 타입만을 받을수 있다 : UserDetails, OAuth2User

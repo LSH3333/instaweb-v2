@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
                         .requestMatchers("/page/create", "/page/upload",
                                 "/mypage", // 로그인한 Member 의 글작성 목록
+                                "/members/info", // 로그인한 Member 의 정보 페이지
                                 "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
                                 "/comments", // Comment 작성
                                 "/comments/[0-9]+") // Comment 삭제

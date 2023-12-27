@@ -30,6 +30,10 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public void delete(Long id) {
+        memberRepository.delete(id);
+    }
+
     // "ROLE_USER" 의 role 을 갖는 member 등록
     // password 는 암호화
     private Member makeNewMember(String username, String password, String email) {

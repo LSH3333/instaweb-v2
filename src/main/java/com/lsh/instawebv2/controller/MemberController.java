@@ -1,16 +1,24 @@
 package com.lsh.instawebv2.controller;
 
 import com.lsh.instawebv2.domain.Member;
+import com.lsh.instawebv2.domain.Page;
 import com.lsh.instawebv2.service.MemberService;
+import com.lsh.instawebv2.service.PageService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -19,10 +27,12 @@ import java.security.Principal;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PageService pageService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, PageService pageService) {
         this.memberService = memberService;
+        this.pageService = pageService;
     }
 
     /**
@@ -92,4 +102,51 @@ public class MemberController {
         }
         return true;
     }
+
+    /**
+     * 로그인한 Member 가 소유한 모든 Page 들 찾아서 뷰로 넘겨준다
+     *
+     * @return : username 을 갖는 Member 가 작성한 Page 들 랜더링되는 뷰
+     */
+    @GetMapping("/members/mypage")
+    public String userPage(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Principal principal) {
+        String username = principal.getName();
+        int size = 6;
+        Member member = memberService.findByUsername(username).orElse(null);
+        // member 가 소유한 page 들
+        org.springframework.data.domain.Page<Page> pages = pageService.findByMember(member, PageRequest.of(page, size, Sort.by("createdTime").descending()));
+
+        // page objects
+        model.addAttribute("pages", pages);
+        // current page
+        model.addAttribute("page", page + 1);
+        return "members/mypage";
+    }
+
+    /**
+     * 회원 정보 페이지
+     */
+    @GetMapping("/members/info")
+    public String membersInfo() {
+        return "members/info";
+    }
+
+    /**
+     * 로그인 되어 있는 회원 탈퇴
+     */
+    @GetMapping("/members/resign")
+    public String membersResign(Principal principal) {
+        Member member = memberService.findByUsername(principal.getName()).orElse(null);
+        if(member != null) {
+            memberService.delete(member.getId());
+
+            // authentication 토큰 null 로 만들어서 로그 아웃 처리
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                SecurityContextHolder.getContext().setAuthentication(null);
+            }
+        }
+        return "redirect:/";
+    }
+
 }

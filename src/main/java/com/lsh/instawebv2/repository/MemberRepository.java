@@ -25,6 +25,13 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
+    public void delete(Long id) {
+        Member member = findById(id);
+        if(member != null) {
+            em.remove(member);
+        }
+    }
+
     /**
      * loginId 를 갖는 Member 를 DB 에서 찾는다
      * @param username : Member.username

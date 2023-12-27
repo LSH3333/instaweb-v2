@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
+
+<head>
+    <title>마이페이지</title>
+</head>
+
+<body layout:fragment="content">
+    <main>
+
+        <!-- 상단 대문 메시지 영역 -->
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <p>
+                        <a th:href="@{/members/resign}" class="btn btn-danger">회원탈퇴</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>
