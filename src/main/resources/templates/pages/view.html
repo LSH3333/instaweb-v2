@@ -134,7 +134,7 @@
             let comments = JSON.parse(xhr.responseText);
 
             comments.forEach(function (comment) {
-              console.log(comment.id);
+              //console.log(comment.id);
 
               // container 
               let container = document.createElement('div');
@@ -142,7 +142,7 @@
               // memberName
               let memberName = document.createElement('h4');
               memberName.classList.add('comment-memberName')
-              memberName.innerText = comment.memberName;
+              memberName.innerText = comment.email;
               // createdTime 
               let createdTime = document.createElement('span')
               createdTime.classList.add('comment-createdTime')
