@@ -77,7 +77,7 @@ public class PageController {
      *
      * @return : username 을 갖는 Member 가 작성한 Page 들 랜더링되는 뷰
      */
-    @GetMapping("/members/pages")
+    @GetMapping("/mypage")
     public String userPage(@RequestParam(name = "page", defaultValue = "0") int page, Model model, Principal principal) {
         String username = principal.getName();
         int size = 6;
@@ -89,7 +89,7 @@ public class PageController {
         model.addAttribute("pages", pages);
         // current page
         model.addAttribute("page", page + 1);
-        return "members/pages";
+        return "mypage";
     }
 
     @GetMapping("/pages/create")
@@ -199,23 +199,6 @@ public class PageController {
         message = "Files uploaded successfully!";
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
-
-
-    /**
-     * SecurityContextHolder 에 저장되있는 인증 받은 사용자 찾는다
-     * @return : 인증 받은 (로그인된) Member 있으면 리턴 없으면 null 리턴
-     */
-//    private Member getLoggedInMember() {
-//        Member member = null;
-//        // SecurityContextHolder 에 저장되있는 인증 받은 사용자
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String username = authentication.getName();
-//            member = memberService.findByUsername(username).orElse(null);
-//        }
-//        return member;
-//    }
 
 
 }

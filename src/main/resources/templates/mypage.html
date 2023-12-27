@@ -3,7 +3,7 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
 
 <head>
-    <title>Home</title>
+    <title>마이페이지</title>
 </head>
 
 <body layout:fragment="content">
@@ -13,7 +13,7 @@
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">나의 작성 목록</h1>
+                    <h1 class="fw-light"><span th:text="${loggedInMemberEmail}"></span>의 작성 글</h1>
                     <p>
                         <a href="/templates/pages/create.html" th:href="@{/pages/create}" class="btn btn-primary my-2">글
                             쓰기</a>

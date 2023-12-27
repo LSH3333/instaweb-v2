@@ -76,13 +76,17 @@
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
                         <h4>Welcome</h4>
-                        <div sec:authorize="isAuthenticated()">                            
+                        <div sec:authorize="isAuthenticated()">
                             환영합니다. <span th:text="${loggedInMemberEmail}"></span> 님.
                         </div>
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
+                        <!-- isAuthenticated() -->
                         <a href="/" th:href="@{/logout}" sec:authorize="isAuthenticated()"><button type="button"
                                 class="btn btn-primary btn-sm">로그아웃</button></a>
+                        <a href="/templates/mypage.html" th:href="@{/mypage}" sec:authorize="isAuthenticated()"><button type="button"
+                                class="btn btn-primary btn-sm">마이페이지</button></a>
+                        <!-- isAnonymouse() -->
                         <a href="/templates/login.html" th:href="@{/login}" sec:authorize="isAnonymous()"><button
                                 type="button" class="btn btn-primary btn-sm">로그인</button></a>
                         <a href="/templates/members/register.html" th:href="@{/members}"
