@@ -3,7 +3,7 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/default}">
 
 <head>
-  <title>글 보기</title>
+  <title th:text="${page.title}">글 보기</title>
   <style>
     .title {
       font-weight: bold;
