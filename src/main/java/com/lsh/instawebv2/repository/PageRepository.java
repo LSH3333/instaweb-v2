@@ -2,15 +2,11 @@ package com.lsh.instawebv2.repository;
 
 import com.lsh.instawebv2.domain.Member;
 import com.lsh.instawebv2.domain.Page;
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 //@Repository
 public interface PageRepository extends JpaRepository<Page, Long> {

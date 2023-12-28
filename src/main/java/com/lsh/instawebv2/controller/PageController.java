@@ -6,23 +6,14 @@ import com.lsh.instawebv2.repository.PageRepository;
 import com.lsh.instawebv2.service.MemberService;
 import com.lsh.instawebv2.service.PageService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -187,8 +178,6 @@ public class PageController {
      */
     @GetMapping("/pages/{pageId}/delete")
     public String deletePage(@PathVariable("pageId") Long pageId, Principal principal) {
-        log.info("deletePage pageId = {}", pageId);
-
         // 권한 확인, 로그인 안되어 있거나 삭제하려는 Page 가 로그인 되어 있는 Member 의 소유 아니면 권한없음 페이지로
         Member member = memberService.findByUsername(principal.getName()).orElse(null);
         Page page = pageService.findByIdAndMember(pageId, member);

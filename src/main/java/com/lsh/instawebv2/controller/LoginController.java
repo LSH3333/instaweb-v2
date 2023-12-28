@@ -1,18 +1,12 @@
 package com.lsh.instawebv2.controller;
 
 import com.lsh.instawebv2.config.auth.PrincipalDetails;
-import com.lsh.instawebv2.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Controller
 @Slf4j
 public class LoginController {
