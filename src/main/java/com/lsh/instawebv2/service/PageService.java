@@ -88,19 +88,13 @@ public class PageService {
         return pageRepository.findByMember(member, pageable);
     }
 
-    public Page findByIdAndMember(Long id, Member member) {
-        return pageRepository.findByIdAndMember(id, member);
-    }
-
     /**
      * Page 가 member 가 작성한 글이 맞는지 확인
-     * @param member : 현재 로그인한 회원
-     * @param pageId : 확인하려는 페이지의 id
-     * @return : 맞다면 true else false
+     * @param id : pageId
+     * @param member : 인증된 회원
      */
-    public boolean checkPageMember(Member member, Long pageId) {
-        Page page = findOne(pageId);
-        return page.getMember() == member;
+    public Page findByIdAndMember(Long id, Member member) {
+        return pageRepository.findByIdAndMember(id, member);
     }
 
 

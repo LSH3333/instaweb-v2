@@ -82,10 +82,10 @@ public class PageController {
     @GetMapping("/pages/{pageId}/edit")
     public String editPageView(Model model, Principal principal, @PathVariable("pageId") String pageId) {
         Member member = memberService.findByUsername(principal.getName()).orElse(null);
-
         Page page = pageService.findByIdAndMember(Long.parseLong(pageId), member);
+
         // 수정하려는 Page 가 Member 소유 아니라면
-        if(page == null) {
+        if(member == null || page == null) {
             return "errors/noAuth";
         }
 
@@ -191,7 +191,10 @@ public class PageController {
 
         // 권한 확인, 로그인 안되어 있거나 삭제하려는 Page 가 로그인 되어 있는 Member 의 소유 아니면 권한없음 페이지로
         Member member = memberService.findByUsername(principal.getName()).orElse(null);
-        if(member == null || !pageService.checkPageMember(member, pageId)) {
+        Page page = pageService.findByIdAndMember(pageId, member);
+
+        // 수정하려는 Page 가 Member 소유 아니라면
+        if(member == null || page == null) {
             return "errors/noAuth";
         }
 
