@@ -48,6 +48,7 @@ public class SecurityConfig {
                                 "/members/password", // 로그인한 Member 비밀번호 변경
                                 "/members/info", // 로그인한 Member 의 정보 페이지
                                 "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
+                                "/pages/[0-9]+/delete", // 로그인한 Member 가 작성한 {pageId} 글 삭제
                                 "/comments", // Comment 작성
                                 "/comments/[0-9]+") // Comment 삭제
                         .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)

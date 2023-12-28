@@ -38,6 +38,13 @@ public class PageService {
         pageRepository.save(page);
     }
 
+    public void delete(Long id) {
+        Page page = findOne(id);
+        if(page != null) {
+            pageRepository.delete(page);
+        }
+    }
+
     public Page findOne(Long pageId) {
         return pageRepository.findById(pageId).orElse(null);
     }
@@ -84,6 +91,19 @@ public class PageService {
     public Page findByIdAndMember(Long id, Member member) {
         return pageRepository.findByIdAndMember(id, member);
     }
+
+    /**
+     * Page 가 member 가 작성한 글이 맞는지 확인
+     * @param member : 현재 로그인한 회원
+     * @param pageId : 확인하려는 페이지의 id
+     * @return : 맞다면 true else false
+     */
+    public boolean checkPageMember(Member member, Long pageId) {
+        Page page = findOne(pageId);
+        return page.getMember() == member;
+    }
+
+
 
     /**
      * Page가 생성된지 얼마나 지났는지 계산

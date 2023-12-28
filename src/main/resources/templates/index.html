@@ -14,7 +14,8 @@
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light">Instaweb-V2</h1>
-          <p class="lead text-body-secondary"><a target="_blank" href="https://lsh-instaweb.herokuapp.com/">Instaweb</a>의 버전 2. Spring Security 적용, 직접 구현한 에디터 -> WYSIWYG
+          <p class="lead text-body-secondary"><a target="_blank"
+              href="https://lsh-instaweb.herokuapp.com/">Instaweb</a>의 버전 2. Spring Security 적용, 직접 구현한 에디터 -> WYSIWYG
             ckeditor5, 커스텀 html,css -> bootstrap, 배포 heroku -> AWS, thymeleaf layout 적용 </p>
           <p>
             <a href="/templates/pages/create.html" th:href="@{/pages/create}" class="btn btn-primary my-2">글
@@ -55,6 +56,10 @@
                           <!-- edit btn -->
                           <a href="/" th:href="@{/pages/{pageId}/edit(pageId=${page.id})}"><button type="button"
                               class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                          <!-- delete btn -->
+                          <a onclick="return confirmDelete()" href="/"
+                            th:href="@{/pages/{pageId}/delete(pageId=${page.id})}"><button type="button"
+                              class="btn btn-sm btn-outline-secondary">Delete</button></a>
                         </div>
                         <small th:text="${page.pastTime}" class="text-body-secondary">9 mins</small>
                       </div>
@@ -173,9 +178,13 @@
         pagination_li_2.classList.add('active')
       }
     }
+  </script>
 
-
-
+  <script>
+    function confirmDelete() {
+      var confirmation = confirm("정말 글을 삭제하시겠습니까?");
+      return confirmation;
+    }
   </script>
 
 </body>
