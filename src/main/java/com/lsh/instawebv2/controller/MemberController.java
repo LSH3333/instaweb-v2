@@ -1,5 +1,6 @@
 package com.lsh.instawebv2.controller;
 
+import com.lsh.instawebv2.config.auth.PrincipalDetails;
 import com.lsh.instawebv2.domain.Member;
 import com.lsh.instawebv2.domain.Page;
 import com.lsh.instawebv2.dto.PasswordChangeDto;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -126,9 +128,17 @@ public class MemberController {
 
     /**
      * 회원 정보 페이지
+     * @param model : 로그인한 유저가 OAuth2 유저라면 모델에 (OAuth2User,true), 일반유저라면 (OAuth2User,false)
      */
     @GetMapping("/members/info")
-    public String membersInfo() {
+    public String membersInfo(Model model) {
+        // OAuth2 회원에게는 비밀번호 변경 버튼 보이지 안도록 하기 위한 attribute 
+        if (isOAuth2User()) {
+            model.addAttribute("OAuth2User", true);
+        } else {
+            model.addAttribute("OAuth2User", false);
+        }
+
         return "members/info";
     }
 
@@ -137,6 +147,10 @@ public class MemberController {
      */
     @GetMapping("/members/password")
     public String changePasswordForm(@ModelAttribute("PasswordChangeDto")PasswordChangeDto passwordChangeDto) {
+        // OAuth2 회원은 비밀번호 변경 불가능
+        if (isOAuth2User()) {
+            return "errors/noAuth"; // 권한 없음 에러 페이지
+        }
         return "members/changePassword";
     }
 
@@ -170,6 +184,7 @@ public class MemberController {
         return "redirect:/";
     }
 
+
     /**
      * 로그인 되어 있는 회원 탈퇴
      */
@@ -185,10 +200,33 @@ public class MemberController {
         return ResponseEntity.ok("member resign success");
     }
 
+    /**
+     * 로그 아웃
+     */
     private void logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(null);
+        }
+    }
+
+    /**
+     * 현재 로그인된 유저가 OAuth2 회원인지, 일반 회원인지 판단
+     */
+    private boolean isOAuth2User() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
+        // PrincipalDetails 의 attributes 는 OAuth2User 일때만 만들어짐 (PrincipalOAuth2UserService.java 참고)
+        // 일반 유저
+        if(principalDetails.getAttributes() == null) {
+            log.info("principalDetails.getAttributes() == null");
+            return false;
+        }
+        // OAuth2 유저
+        else {
+            log.info("principalDetails.getAttributes() != null");
+            return true;
         }
     }
 }

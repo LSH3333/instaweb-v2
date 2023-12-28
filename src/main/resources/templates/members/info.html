@@ -14,8 +14,8 @@
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <p>
-                        <a href="/templates/members/changePassword.html" th:href="@{/members/password}" class="btn btn-primary">비밀번호 변경</a>
-                        <a  class="btn btn-primary">닉네임 변경</a>
+                        <a th:if="${not OAuth2User}" href="/templates/members/changePassword.html" th:href="@{/members/password}" class="btn btn-primary">비밀번호 변경</a>
+                        <a class="btn btn-primary">닉네임 변경</a>
                         <a class="btn btn-danger" onclick="confirmAndResign()">회원탈퇴</a>                        
                     </p>
                 </div>

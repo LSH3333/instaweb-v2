@@ -92,6 +92,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
             memberService.save(memberEntity);
         }
         // Authentication 에 담기게됨
+        // PrincipalDetails implements UserDetails, OAuth2User
+        // UserDetails(일반회원), OAuth2User(OAuth2회원) 를 상속 받는 PrincipalDetails 타입으로 Authentication 저장해서 두 종류 모두 동일하게 처리할수 있도록함
         return new PrincipalDetails(memberEntity, oAuth2User.getAttributes());
     }
 }
