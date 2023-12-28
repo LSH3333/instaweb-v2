@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/page/create", "/page/upload",
                                 "/members/mypage", // 로그인한 Member 의 글작성 목록
                                 "/members/resign", // 로그인한 Member 회원 탈퇴
+                                "/members/password", // 로그인한 Member 비밀번호 변경
                                 "/members/info", // 로그인한 Member 의 정보 페이지
                                 "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
                                 "/comments", // Comment 작성

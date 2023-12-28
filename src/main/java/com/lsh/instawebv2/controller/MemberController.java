@@ -132,7 +132,7 @@ public class MemberController {
      */
     @GetMapping("/members/info")
     public String membersInfo(Model model) {
-        // OAuth2 회원에게는 비밀번호 변경 버튼 보이지 안도록 하기 위한 attribute 
+        // OAuth2 회원에게는 비밀번호 변경 버튼 보이지 안도록 하기 위한 attribute
         if (isOAuth2User()) {
             model.addAttribute("OAuth2User", true);
         } else {
@@ -143,7 +143,7 @@ public class MemberController {
     }
 
     /**
-     * 로그인 되어 있는 회원 정보 수정
+     * 로그인 되어 있는 회원 비밀번호 수정
      */
     @GetMapping("/members/password")
     public String changePasswordForm(@ModelAttribute("PasswordChangeDto")PasswordChangeDto passwordChangeDto) {
@@ -199,6 +199,11 @@ public class MemberController {
         }
         return ResponseEntity.ok("member resign success");
     }
+
+
+
+
+
 
     /**
      * 로그 아웃
