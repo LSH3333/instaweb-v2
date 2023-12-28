@@ -45,6 +45,7 @@ spring:
               - profile
               - email
             #redirect-uri: CommonOAuth2Provider 에서 구글은 기본으로 설정되어 있음 : "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            redirect-uri: ${GOOGLE_REDIRECT_URI}
 
           # https://developers.naver.com/docs/login/devguide/devguide.md
           naver:
@@ -82,7 +83,6 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-info-authentication-method: header
             user-name-attribute: id # Kakao 응답 값 id, connected_at, properties, kakao_account 중 id 지정
-
 
 
   servlet:
