@@ -43,7 +43,8 @@ public class SecurityConfig {
                         .requestMatchers(RegexRequestMatcher.regexMatcher("/pages/[0-9]+")).permitAll() // 작성글들은 인증 없이 볼 수 있음
                         .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/ckeditor5/**", "/img/**", "/*.ico", "/error").permitAll()
                         .requestMatchers("/page/create", "/page/upload",
-                                "/mypage", // 로그인한 Member 의 글작성 목록
+                                "/members/mypage", // 로그인한 Member 의 글작성 목록
+                                "/members/resign", // 로그인한 Member 회원 탈퇴
                                 "/members/info", // 로그인한 Member 의 정보 페이지
                                 "/pages/[0-9]+/edit", // 로그인한 Member 가 작성한 {pageId} 글 수정
                                 "/comments", // Comment 작성

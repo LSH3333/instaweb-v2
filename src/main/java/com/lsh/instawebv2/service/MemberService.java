@@ -53,4 +53,10 @@ public class MemberService {
         return memberRepository.findByUsername(username);
     }
 
+    public void changePassword(Long memberId, String password) {
+        Member member = memberRepository.findById(memberId);
+        member.changePassword(passwordEncoder.encode(password));
+        // @Transactional 에 의해 commit 됨 -> flush (변경 감지)
+    }
+
 }

@@ -74,6 +74,10 @@ public class Member {
         this.comments.add(comment);
     }
 
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Member{" +

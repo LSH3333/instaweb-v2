@@ -2,6 +2,7 @@ package com.lsh.instawebv2.controller;
 
 import com.lsh.instawebv2.domain.Member;
 import com.lsh.instawebv2.domain.Page;
+import com.lsh.instawebv2.dto.PasswordChangeDto;
 import com.lsh.instawebv2.service.MemberService;
 import com.lsh.instawebv2.service.PageService;
 import jakarta.validation.Valid;
@@ -9,16 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -132,21 +133,62 @@ public class MemberController {
     }
 
     /**
+     * 로그인 되어 있는 회원 정보 수정
+     */
+    @GetMapping("/members/password")
+    public String changePasswordForm(@ModelAttribute("PasswordChangeDto")PasswordChangeDto passwordChangeDto) {
+        return "members/changePassword";
+    }
+
+    @PostMapping("/members/password")
+    public String changePassword(@ModelAttribute("PasswordChangeDto")PasswordChangeDto passwordChangeDto, BindingResult bindingResult, Principal principal) {
+
+        // pw 는 4 글자 이상 10 글자 이하
+        if(passwordChangeDto.getPassword1().length() < 4 || passwordChangeDto.getPassword1().length() > 10) {
+            bindingResult.addError(new FieldError("PasswordChangeDto", "password1", passwordChangeDto.getPassword1(), false, null, null,"4글자 이상 10글자 이하"));
+        }
+        if(passwordChangeDto.getPassword2().length() < 4 || passwordChangeDto.getPassword2().length() > 10) {
+            bindingResult.addError(new FieldError("PasswordChangeDto", "password2", passwordChangeDto.getPassword2(), false, null, null,"4글자 이상 10글자 이하"));
+        }
+        // pw1 과 pw2 가 다른 경우 에러
+        if (!passwordChangeDto.getPassword1().equals(passwordChangeDto.getPassword2())) {
+            bindingResult.addError(new ObjectError("pwDiffErr", "입력한 비밀번호가 서로 다릅니다"));
+        }
+
+        // 에러 있을시 되돌아감
+        if (bindingResult.hasErrors()) {
+            return "members/changePassword";
+        }
+
+        // 비밀번호 변경
+        Member member = memberService.findByUsername(principal.getName()).orElse(null);
+        if(member != null) {
+            memberService.changePassword(member.getId(), passwordChangeDto.getPassword1());
+            logout();
+        }
+
+        return "redirect:/";
+    }
+
+    /**
      * 로그인 되어 있는 회원 탈퇴
      */
     @GetMapping("/members/resign")
-    public String membersResign(Principal principal) {
+    public ResponseEntity<String> resign(Principal principal) {
         Member member = memberService.findByUsername(principal.getName()).orElse(null);
         if(member != null) {
             memberService.delete(member.getId());
 
             // authentication 토큰 null 로 만들어서 로그 아웃 처리
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(null);
-            }
+            logout();
         }
-        return "redirect:/";
+        return ResponseEntity.ok("member resign success");
     }
 
+    private void logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
+    }
 }

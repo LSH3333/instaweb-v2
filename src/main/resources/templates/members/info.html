@@ -14,13 +14,44 @@
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <p>
-                        <a th:href="@{/members/resign}" class="btn btn-danger">회원탈퇴</a>
+                        <a href="/templates/members/changePassword.html" th:href="@{/members/password}" class="btn btn-primary">비밀번호 변경</a>
+                        <a  class="btn btn-primary">닉네임 변경</a>
+                        <a class="btn btn-danger" onclick="confirmAndResign()">회원탈퇴</a>                        
                     </p>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- Resign Member -->
+    <script>
+        function confirmAndResign() {
+            var confirmation = confirm("정말 탈퇴하시겠습니까?");
+            if (confirmation) {
+                sendResignRequest();
+            }
+        }
+
+        function sendResignRequest() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "/members/resign", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // console.log("Resignation successful");
+                    window.location.href = "/";
+                } else {
+                    // console.log("Resignation fail");
+                    window.location.href = "/";
+                }
+            };
+
+            xhr.send();
+        }
+
+    </script>
 </body>
 
 </html>
