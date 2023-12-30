@@ -7,12 +7,9 @@ spring:
     # local
 #    url: jdbc:postgresql://localhost:5432/instawebv2
     url: ${DATASOURCE_URL}
+#    url: jdbc:postgresql://db:5432/instawebv2
     username: admin_jake
     password: admin_jake
-    # heroku deploy
-#    url: jdbc:postgresql://ec2-34-197-91-131.compute-1.amazonaws.com/dckofr3ptkpa9b
-#    username: mpcdhjuocwciio
-#    password: 3fc888680efc3d57d8a90a3f46246d90d6913bf5e1be8bcbffb54c7b616b0b3c
 
     maxActive: 10
     maxIdle: 5
@@ -24,7 +21,7 @@ spring:
   jpa:
     hibernate:
       # 최초에만 create
-      ddl-auto: none
+      ddl-auto: update
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:

@@ -14,6 +14,8 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
 
   app:
+    depends_on:
+      - db
     build: 
       context: .
       dockerfile: Dockerfile
@@ -21,6 +23,7 @@ services:
     ports:
       - 8080:8080
     environment:
+      DATASOURCE_URL: jdbc:postgresql://db:5432/instawebv2
       GOOGLE_REDIRECT_URI: http://localhost:8080/login/oauth2/code/google=value
       GOOGLE_CLIENT_ID: 933670637948-o7vh254j4orbfntn0c7191gcm3d8qfoc.apps.googleusercontent.com
       GOOGLE_CLIENT_SECRET: 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
@@ -29,7 +32,5 @@ services:
       NAVER_CLIENT_SECRET: hKxLnttjme
       KAKAO_REDIRECT_URI: http://localhost:8080/login/oauth2/code/kakao
       KAKAO_CLIENT_ID: a77d9606f5dd4cd79727e6354a947329
-      KAKAO_CLIENT_SECRET: wtwNKj9uWbKcw0ZZXDmtE7TP8NYncl8c
-      DATASOURCE_URL: jdbc:postgresql://db:5432/instawebv2
-    depends_on:
-      - db
+      KAKAO_CLIENT_SECRET: wtwNKj9uWbKcw0ZZXDmtE7TP8NYncl8c      
+  
