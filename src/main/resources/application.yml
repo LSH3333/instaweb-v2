@@ -5,7 +5,8 @@ spring:
     driver-class-name: org.postgresql.Driver
     platform: postgres
     # local
-    url: jdbc:postgresql://localhost:5432/instawebv2
+#    url: jdbc:postgresql://localhost:5432/instawebv2
+    url: ${DATASOURCE_URL}
     username: admin_jake
     password: admin_jake
     # heroku deploy
