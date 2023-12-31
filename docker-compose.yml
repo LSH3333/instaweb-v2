@@ -3,34 +3,34 @@ version: '3.7'
 services:
   db:
     image: postgres:latest
-    restart: always
-    ports:
-      - 5432:5432
+#    restart: always
+#    ports:
+#      - 5432:5432
     environment:
       POSTGRES_DB: instawebv2
-      POSTGRES_USER: admin_jake
-      POSTGRES_PASSWORD: admin_jake
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
 
   app:
     depends_on:
       - db
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     restart: always
     ports:
       - 8080:8080
     environment:
-      DATASOURCE_URL: jdbc:postgresql://db:5432/instawebv2
-      GOOGLE_REDIRECT_URI: http://localhost:8080/login/oauth2/code/google=value
-      GOOGLE_CLIENT_ID: 933670637948-o7vh254j4orbfntn0c7191gcm3d8qfoc.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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
-      NAVER_REDIRECT_URI: http://localhost:8080/login/oauth2/code/naver
-      NAVER_CLIENT_ID: 3A7gBrRHc4k7PrqvzHnr
-      NAVER_CLIENT_SECRET: hKxLnttjme
-      KAKAO_REDIRECT_URI: http://localhost:8080/login/oauth2/code/kakao
-      KAKAO_CLIENT_ID: a77d9606f5dd4cd79727e6354a947329
-      KAKAO_CLIENT_SECRET: wtwNKj9uWbKcw0ZZXDmtE7TP8NYncl8c      
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      NAVER_REDIRECT_URI: ${NAVER_REDIRECT_URI}
+      NAVER_CLIENT_ID: ${NAVER_CLIENT_ID}
+      NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
+      KAKAO_REDIRECT_URI: ${KAKAO_REDIRECT_URI}
+      KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID}
+      KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET}
   
